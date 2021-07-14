@@ -64,6 +64,7 @@ export const Dashboard = () => {
 
 				<Section data-testid="dashboard__transactions-view">
 					<Transactions
+						isCompact
 						profile={activeProfile}
 						isVisible={showTransactions}
 						wallets={selectedWallets}

@@ -110,6 +110,7 @@ export const WalletDetails = () => {
 					)}
 
 					<Transactions
+						isCompact
 						title={<h2 className="mb-6">{t("WALLETS.PAGE_WALLET_DETAILS.TRANSACTION_HISTORY.TITLE")}</h2>}
 						showUnconfirmed={false}
 						profile={activeProfile}
