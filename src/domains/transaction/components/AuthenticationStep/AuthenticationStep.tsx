@@ -12,20 +12,40 @@ import { useTranslation } from "react-i18next";
 interface LedgerStates {
 	ledgerIsAwaitingDevice?: boolean;
 	ledgerIsAwaitingApp?: boolean;
+	isLedgerNanoXSupported?: boolean;
+	isLedgerNanoSSupported?: boolean;
 }
 
 const LedgerStateWrapper = ({
 	ledgerIsAwaitingApp,
 	ledgerIsAwaitingDevice,
-	coinName,
+	isLedgerNanoXSupported = true,
+	isLedgerNanoSSupported = true,
+	wallet,
 	children,
-}: { coinName: string; children: React.ReactNode } & LedgerStates) => {
+}: { wallet: Contracts.IReadWriteWallet; children: React.ReactNode } & LedgerStates) => {
+	const { t } = useTranslation();
+
+	const modelSubtitle = () => {
+		const isAllSupported = isLedgerNanoSSupported && isLedgerNanoXSupported;
+
+		if (isAllSupported) {
+			return t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_DEVICE");
+		}
+
+		if (isLedgerNanoXSupported) {
+			return t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_NANO_X_DEVICE");
+		}
+
+		return t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_NANO_S_DEVICE");
+	};
+
 	if (ledgerIsAwaitingDevice) {
-		return <LedgerWaitingDeviceContent />;
+		return <LedgerWaitingDeviceContent subtitle={modelSubtitle()} />;
 	}
 
 	if (ledgerIsAwaitingApp) {
-		return <LedgerWaitingAppContent coinName={coinName} />;
+		return <LedgerWaitingAppContent coinName={wallet.network().coin()} subtitle={modelSubtitle()} />;
 	}
 
 	return <>{children}</>;
@@ -36,6 +56,8 @@ export const AuthenticationStep = ({
 	ledgerDetails,
 	ledgerIsAwaitingDevice,
 	ledgerIsAwaitingApp,
+	isLedgerNanoSSupported,
+	isLedgerNanoXSupported,
 }: {
 	wallet: Contracts.IReadWriteWallet;
 	ledgerDetails?: React.ReactNode;
@@ -50,7 +72,9 @@ export const AuthenticationStep = ({
 				<LedgerStateWrapper
 					ledgerIsAwaitingApp={ledgerIsAwaitingApp}
 					ledgerIsAwaitingDevice={ledgerIsAwaitingDevice}
-					coinName={wallet.network().coin()}
+					isLedgerNanoXSupported={isLedgerNanoXSupported}
+					isLedgerNanoSSupported={isLedgerNanoSSupported}
+					wallet={wallet}
 				>
 					<>
 						<Header title={t("TRANSACTION.LEDGER_CONFIRMATION.TITLE")} />

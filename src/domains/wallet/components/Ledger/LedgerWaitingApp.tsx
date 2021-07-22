@@ -5,14 +5,14 @@ import { Spinner } from "app/components/Spinner";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export const LedgerWaitingAppContent = ({ coinName }: { coinName: string }) => {
+export const LedgerWaitingAppContent = ({ coinName, subtitle }: { coinName: string; subtitle?: string }) => {
 	const { t } = useTranslation();
 
 	return (
 		<div className="mt-8 space-y-8">
 			<Header
 				title={t("WALLETS.MODAL_LEDGER_WALLET.TITLE")}
-				subtitle={t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_DEVICE")}
+				subtitle={subtitle || t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_DEVICE")}
 			/>
 
 			<Image name="WaitingLedgerDevice" domain="wallet" className="mx-auto" />
@@ -33,13 +33,15 @@ export const LedgerWaitingAppContent = ({ coinName }: { coinName: string }) => {
 export const LedgerWaitingApp = ({
 	isOpen,
 	coinName,
+	subtitle,
 	onClose,
 }: {
 	isOpen: boolean;
 	coinName: string;
+	subtitle?: string;
 	onClose?: () => void;
 }) => (
 	<Modal title={""} isOpen={isOpen} onClose={() => onClose?.()}>
-		<LedgerWaitingAppContent coinName={coinName} />
+		<LedgerWaitingAppContent coinName={coinName} subtitle={subtitle} />
 	</Modal>
 );

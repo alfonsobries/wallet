@@ -6,13 +6,13 @@ import { useLedgerContext } from "app/contexts/Ledger/Ledger";
 import React, { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-export const LedgerWaitingDeviceContent = () => {
+export const LedgerWaitingDeviceContent = ({ subtitle }: { subtitle?: string }) => {
 	const { t } = useTranslation();
 	return (
 		<div className="space-y-8">
 			<Header
 				title={t("WALLETS.MODAL_LEDGER_WALLET.TITLE")}
-				subtitle={t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_DEVICE")}
+				subtitle={subtitle || t("WALLETS.MODAL_LEDGER_WALLET.CONNECT_DEVICE")}
 			/>
 
 			<Image name="WaitingLedgerDevice" domain="wallet" className="mx-auto" />
@@ -33,9 +33,11 @@ export const LedgerWaitingDeviceContent = () => {
 export const LedgerWaitingDevice = ({
 	isOpen,
 	onClose,
+	subtitle,
 	onDeviceAvailable,
 }: {
 	isOpen: boolean;
+	subtitle?: string;
 	onClose?: () => void;
 	onDeviceAvailable?: (hasDeviceAvailable: boolean) => void;
 }) => {
@@ -49,7 +51,7 @@ export const LedgerWaitingDevice = ({
 
 	return (
 		<Modal title={""} isOpen={isOpen} onClose={() => onClose?.()}>
-			<LedgerWaitingDeviceContent />
+			<LedgerWaitingDeviceContent subtitle={subtitle} />
 		</Modal>
 	);
 };
