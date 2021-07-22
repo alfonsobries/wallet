@@ -15,4 +15,11 @@ describe("LedgerWaitingApp", () => {
 
 		expect(onClose).toHaveBeenCalled();
 	});
+
+	it("should render with custom subtitle", () => {
+		const subtitle = "Connect your Ledger Nano S and confirm input";
+		const { getByText } = render(<LedgerWaitingApp isOpen={true} coinName="ARK" subtitle={subtitle} />);
+
+		expect(getByText(subtitle)).toBeInTheDocument();
+	});
 });

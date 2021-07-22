@@ -713,6 +713,122 @@ exports[`AuthenticationStep should show ledger waiting device screen 1`] = `
 </div>
 `;
 
+exports[`AuthenticationStep should show ledger waiting device screen for Nano S 1`] = `
+<div>
+  <form
+    class="space-y-5"
+    data-testid="Form"
+  >
+    <div
+      class="space-y-8"
+      data-testid="AuthenticationStep"
+    >
+      <div
+        class="space-y-8"
+      >
+        <div
+          class="flex justify-between items-end bg-theme-background"
+        >
+          <div
+            class="space-y-4"
+          >
+            <h1
+              class="mb-0 text-2xl"
+              data-testid="header__title"
+            >
+              Ledger Wallet
+            </h1>
+            <div
+              class="text-theme-secondary-text"
+              data-testid="header__subtitle"
+            >
+              Connect your Ledger Nano S and confirm input.
+            </div>
+          </div>
+        </div>
+        <svg
+          class="mx-auto"
+        >
+          waiting-ledger-device-dark-green.svg
+        </svg>
+        <div
+          class="inline-flex justify-center items-center space-x-3 w-full"
+        >
+          <div
+            class="Spinner-sc-1rpx65r-0 jouzuN"
+            color="info"
+          />
+          <span
+            class="font-semibold animate-pulse text-theme-secondary-text"
+            data-testid="LedgerWaitingDevice-loading_message"
+          >
+            Waiting for Ledger ...
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`AuthenticationStep should show ledger waiting device screen for Nano X 1`] = `
+<div>
+  <form
+    class="space-y-5"
+    data-testid="Form"
+  >
+    <div
+      class="space-y-8"
+      data-testid="AuthenticationStep"
+    >
+      <div
+        class="space-y-8"
+      >
+        <div
+          class="flex justify-between items-end bg-theme-background"
+        >
+          <div
+            class="space-y-4"
+          >
+            <h1
+              class="mb-0 text-2xl"
+              data-testid="header__title"
+            >
+              Ledger Wallet
+            </h1>
+            <div
+              class="text-theme-secondary-text"
+              data-testid="header__subtitle"
+            >
+              Connect your Ledger Nano X and confirm input.
+            </div>
+          </div>
+        </div>
+        <svg
+          class="mx-auto"
+        >
+          waiting-ledger-device-dark-green.svg
+        </svg>
+        <div
+          class="inline-flex justify-center items-center space-x-3 w-full"
+        >
+          <div
+            class="Spinner-sc-1rpx65r-0 jouzuN"
+            color="info"
+          />
+          <span
+            class="font-semibold animate-pulse text-theme-secondary-text"
+            data-testid="LedgerWaitingDevice-loading_message"
+          >
+            Waiting for Ledger ...
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`AuthenticationStep should show only ledger confirmation 1`] = `
 <DocumentFragment>
   <form

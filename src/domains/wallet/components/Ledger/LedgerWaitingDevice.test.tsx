@@ -49,4 +49,15 @@ describe("LedgerWaitingDevice", () => {
 
 		listenSpy.mockReset();
 	});
+
+	it("should render with custom subtitle", () => {
+		const subtitle = "Connect your Ledger Nano S and confirm input";
+		const { getByText } = render(
+			<LedgerProvider transport={transport}>
+				<LedgerWaitingDevice isOpen={true} subtitle={subtitle} />
+			</LedgerProvider>,
+		);
+
+		expect(getByText(subtitle)).toBeInTheDocument();
+	});
 });
