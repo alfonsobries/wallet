@@ -2,6 +2,7 @@ import { Contracts, Profile } from "@payvo/profiles";
 import { Wallet } from "@payvo/profiles/distribution/wallet";
 import { Coins, Networks } from "@payvo/sdk";
 import { AssertionError } from "assert";
+import { PluginController } from "plugins";
 
 export function assertProfile(profile?: Contracts.IProfile): asserts profile is Profile {
 	if (!(profile instanceof Profile)) {
@@ -47,6 +48,14 @@ export function assertNumber(value: unknown): asserts value is NonNullable<numbe
 	if (typeof value !== "number" || value > Number.MAX_SAFE_INTEGER || Number.isNaN(value)) {
 		throw new AssertionError({
 			message: `Expected 'value' to be number, but received ${value}`,
+		});
+	}
+}
+
+export function assertPluginController(pluginController?: PluginController): asserts pluginController is PluginController {
+	if (!(pluginController instanceof PluginController)) {
+		throw new AssertionError({
+			message: `Expected 'pluginController' to be PluginController, but received ${pluginController}`,
 		});
 	}
 }
