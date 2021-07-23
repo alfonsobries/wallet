@@ -26,48 +26,42 @@ export const useWalletSignatory = (
 } => ({
 	sign: useCallback(
 		async ({ mnemonic, secondMnemonic, encryptionPassword, wif, privateKey, secret }: SignInput) => {
+            let multiSignature: ProfileContracts.IMultiSignature | undefined;
+
+			if (wallet.isMultiSignature()) {
+				multiSignature = wallet.multiSignature();
+			}
+
 			if (mnemonic && secondMnemonic) {
-				return wallet.signatory().secondaryMnemonic(mnemonic, secondMnemonic);
+				return wallet.signatory().secondaryMnemonic(mnemonic, secondMnemonic, { multiSignature });
 			}
 
 			if (mnemonic) {
-				return wallet.signatory().mnemonic(mnemonic);
+				return wallet.signatory().mnemonic(mnemonic, { multiSignature });
 			}
 
 			if (encryptionPassword) {
-				return wallet.signatory().wif(await wallet.wif().get(encryptionPassword));
-			}
-
-			if (wallet.isMultiSignature()) {
-				const publicKey: string | undefined = wallet.publicKey();
-				assertString(publicKey);
-
-				return wallet.signatory().senderPublicKey(publicKey);
+				return wallet.signatory().wif(await wallet.wif().get(encryptionPassword), { multiSignature });
 			}
 
 			if (wallet.isLedger()) {
-				let publicKey: string | undefined = wallet.publicKey();
+                const derivationPath: string | undefined = wallet.data().get(ProfileContracts.WalletData.DerivationPath);
 
-				if (publicKey === undefined) {
-					const derivationPath = wallet.data().get(ProfileContracts.WalletData.DerivationPath);
-					assertString(derivationPath);
+                assertString(derivationPath);
 
-					publicKey = await wallet.ledger().getPublicKey(derivationPath);
-				}
-
-				return wallet.signatory().senderPublicKey(publicKey);
+				return wallet.signatory().ledger(derivationPath, { multiSignature });
 			}
 
 			if (wif) {
-				return wallet.signatory().wif(wif);
+				return wallet.signatory().wif(wif, { multiSignature });
 			}
 
 			if (privateKey) {
-				return wallet.signatory().privateKey(privateKey);
+				return wallet.signatory().privateKey(privateKey, { multiSignature });
 			}
 
 			if (secret) {
-				return wallet.signatory().secret(secret);
+				return wallet.signatory().secret(secret, { multiSignature });
 			}
 
 			throw new Error("Signing failed. No mnemonic or encryption password provided");
