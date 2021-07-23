@@ -40,7 +40,7 @@ export const WalletListItem: React.FC<WalletListItemProperties> = ({
 
 	const { getWalletAlias } = useWalletAlias();
 
-	const alias = useMemo(
+	const { alias } = useMemo(
 		() =>
 			getWalletAlias({
 				address: wallet?.address(),
@@ -50,7 +50,7 @@ export const WalletListItem: React.FC<WalletListItemProperties> = ({
 		[activeProfile, getWalletAlias, wallet],
 	);
 
-	let lastCellContent = undefined;
+	let lastCellContent: string | JSX.Element;
 
 	if (wallet.network().isTest()) {
 		lastCellContent = "N/A";

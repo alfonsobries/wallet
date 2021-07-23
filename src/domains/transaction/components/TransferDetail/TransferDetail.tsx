@@ -28,13 +28,19 @@ export const TransferDetail = ({ isOpen, aliases, transaction, onClose }: Transf
 	const recipients = [
 		{
 			address: transaction.recipient(),
-			alias: aliases?.recipients[0],
+			alias: aliases?.recipients[0].alias,
+			isDelegate: aliases?.recipients[0].isDelegate,
 		},
 	];
 
 	return (
 		<Modal title={t("TRANSACTION.MODAL_TRANSFER_DETAIL.TITLE")} isOpen={isOpen} onClose={onClose}>
-			<TransactionSender address={transaction.sender()} alias={aliases?.sender} border={false} />
+			<TransactionSender
+				address={transaction.sender()}
+				alias={aliases?.sender.alias}
+				isDelegate={aliases?.sender.isDelegate}
+				border={false}
+			/>
 
 			<TransactionRecipients currency={wallet.currency()} recipients={recipients} />
 

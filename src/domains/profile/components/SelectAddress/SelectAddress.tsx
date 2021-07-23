@@ -54,7 +54,7 @@ export const SelectAddress = React.forwardRef<HTMLInputElement, SelectAddressPro
 
 		const { getWalletAlias } = useWalletAlias();
 
-		const alias = useMemo(
+		const { alias } = useMemo(
 			() =>
 				getWalletAlias({
 					address: selectedAddress,

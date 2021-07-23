@@ -43,7 +43,7 @@ const OptionLabel = ({ option, profile }: { option: any; profile: Contracts.IPro
 
 	const { getWalletAlias } = useWalletAlias();
 
-	const alias = useMemo(
+	const { alias } = useMemo(
 		() =>
 			getWalletAlias({
 				address,
@@ -75,7 +75,11 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 		const fieldContext = useFormField();
 
 		const { getWalletAlias } = useWalletAlias();
-		const selectedWalletAlias = getWalletAlias({ address: selectedAddress, profile });
+		const { alias: selectedWalletAlias } = getWalletAlias({
+			address: selectedAddress,
+			network,
+			profile,
+		});
 
 		const isInvalidValue = isInvalid || fieldContext?.isInvalid;
 

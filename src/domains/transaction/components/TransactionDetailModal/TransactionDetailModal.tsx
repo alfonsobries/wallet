@@ -1,4 +1,4 @@
-import { useWalletAlias } from "app/hooks/use-wallet-alias";
+import { useWalletAlias, WalletAliasResult } from "app/hooks/use-wallet-alias";
 import { DelegateRegistrationDetail } from "domains/transaction/components/DelegateRegistrationDetail";
 import { DelegateResignationDetail } from "domains/transaction/components/DelegateResignationDetail";
 import { IpfsDetail } from "domains/transaction/components/IpfsDetail";
@@ -25,16 +25,16 @@ export const TransactionDetailModal = ({
 			return;
 		}
 
-		const senderAlias = getWalletAlias({
+		const sender = getWalletAlias({
 			address: transactionItem.sender(),
 			network: transactionItem.wallet().network(),
 			profile,
 		});
 
-		const recipientAliases: (string | undefined)[] = [];
+		const recipients: WalletAliasResult[] = [];
 
 		if (transactionItem.isTransfer()) {
-			recipientAliases.push(
+			recipients.push(
 				getWalletAlias({
 					address: transactionItem.recipient(),
 					network: transactionItem.wallet().network(),
@@ -45,7 +45,7 @@ export const TransactionDetailModal = ({
 
 		if (transactionItem.isMultiPayment()) {
 			for (const recipient of transactionItem.recipients()) {
-				recipientAliases.push(
+				recipients.push(
 					getWalletAlias({
 						address: recipient.address,
 						network: transactionItem.wallet().network(),
@@ -55,11 +55,8 @@ export const TransactionDetailModal = ({
 			}
 		}
 
-		return {
-			recipients: recipientAliases,
-			sender: senderAlias,
-		};
-	}, [transactionItem, getWalletAlias, profile]);
+		return { recipients, sender };
+	}, [getWalletAlias, profile, transactionItem]);
 
 	const transactionType = transactionItem.type();
 

@@ -165,7 +165,7 @@ describe("EncryptionPasswordStep", () => {
 		await waitFor(() => expect(confirmPassword).toHaveValue("S3cUrePa$sword"));
 
 		actAsync(() => {
-			fireEvent.click(getByTestId("CreateWallet__continue-button"));
+			fireEvent.click(getByTestId("CreateWallet__continue-encryption-button"));
 		});
 		await waitFor(() => expect(getByTestId("CreateWallet__SuccessStep")).toBeTruthy());
 
@@ -310,7 +310,7 @@ describe("EncryptionPasswordStep", () => {
 		expect(profile.wallets().values().length).toBe(0);
 
 		actAsync(() => {
-			fireEvent.click(getByTestId("CreateWallet__continue-button"));
+			fireEvent.click(getByTestId("CreateWallet__continue-encryption-button"));
 		});
 
 		await waitFor(() => expect(getByTestId("CreateWallet__SuccessStep")).toBeTruthy());

@@ -87,9 +87,7 @@ export const Transactions = memo(
 				<div className="flex relative justify-between">
 					{title && title}
 
-					{!title && (
-						<div className="mb-8 text-2xl font-bold">{t("DASHBOARD.TRANSACTION_HISTORY.TITLE")}</div>
-					)}
+					{!title && <h2 className="mb-6 text-2xl font-bold">{t("DASHBOARD.TRANSACTION_HISTORY.TITLE")}</h2>}
 				</div>
 
 				<Tabs

@@ -30,7 +30,8 @@ export const MultiPaymentDetail = ({ isOpen, transaction, aliases, onClose }: Mu
 	for (const [index, recipient] of transaction.recipients().entries()) {
 		recipients.push({
 			...recipient,
-			alias: aliases?.recipients[index],
+			alias: aliases?.recipients[index].alias,
+			isDelegate: aliases?.recipients[index].isDelegate,
 		});
 	}
 
@@ -38,8 +39,8 @@ export const MultiPaymentDetail = ({ isOpen, transaction, aliases, onClose }: Mu
 		<Modal title={t("TRANSACTION.MODAL_TRANSFER_DETAIL.TITLE")} isOpen={isOpen} onClose={onClose}>
 			<TransactionSender
 				address={transaction.sender()}
-				alias={aliases?.sender}
-				isDelegate={wallet.isDelegate() && !wallet.isResignedDelegate()}
+				alias={aliases?.sender.alias}
+				isDelegate={aliases?.sender.isDelegate}
 				border={false}
 			/>
 

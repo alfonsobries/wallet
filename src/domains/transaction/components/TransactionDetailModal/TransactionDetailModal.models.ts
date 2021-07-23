@@ -1,8 +1,9 @@
 import { Contracts, DTO } from "@payvo/profiles";
+import { WalletAliasResult } from "app/hooks";
 
 export interface TransactionAliases {
-	sender: string | undefined;
-	recipients: (string | undefined)[];
+	sender: WalletAliasResult;
+	recipients: WalletAliasResult[];
 }
 
 export interface TransactionDetailModalProperties {

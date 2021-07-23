@@ -196,11 +196,6 @@ export const translations: { [key: string]: any } = {
 		REGISTRATION_OPTIONS: "Register",
 
 		STAR_WALLET: "Star",
-		TRANSACTION_HISTORY: {
-			EMPTY_MESSAGE:
-				"You don't have any transactions yet. Once transactions have been made they will show up in your history.",
-			TITLE: "Transaction History",
-		},
 
 		UNSTAR_WALLET: "Unstar",
 

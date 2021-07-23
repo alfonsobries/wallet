@@ -764,11 +764,11 @@ exports[`Dashboard should render 1`] = `
           <div
             class="flex relative justify-between"
           >
-            <div
-              class="mb-8 text-2xl font-bold"
+            <h2
+              class="mb-6 text-2xl font-bold"
             >
               Transaction History
-            </div>
+            </h2>
           </div>
           <div
             class="mb-8"
@@ -2440,11 +2440,11 @@ exports[`Dashboard should render loading state when profile is syncing 1`] = `
           <div
             class="flex relative justify-between"
           >
-            <div
-              class="mb-8 text-2xl font-bold"
+            <h2
+              class="mb-6 text-2xl font-bold"
             >
               Transaction History
-            </div>
+            </h2>
           </div>
           <div
             class="mb-8"
@@ -5188,11 +5188,11 @@ exports[`Dashboard should show warning for errored networks 1`] = `
           <div
             class="flex relative justify-between"
           >
-            <div
-              class="mb-8 text-2xl font-bold"
+            <h2
+              class="mb-6 text-2xl font-bold"
             >
               Transaction History
-            </div>
+            </h2>
           </div>
           <div
             class="mb-8"

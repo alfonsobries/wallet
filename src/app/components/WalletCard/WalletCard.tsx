@@ -39,7 +39,7 @@ export const WalletCard = ({
 
 	const { getWalletAlias } = useWalletAlias();
 
-	const alias = useMemo(
+	const { alias } = useMemo(
 		() =>
 			getWalletAlias({
 				address: wallet?.address(),

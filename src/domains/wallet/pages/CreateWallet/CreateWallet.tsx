@@ -65,13 +65,6 @@ export const CreateWallet = () => {
 			wordCount: network.wordCount(),
 		});
 
-		wallet.mutator().alias(
-			getDefaultAlias({
-				network,
-				profile: activeProfile,
-			}),
-		);
-
 		setValue("wallet", wallet, { shouldDirty: true, shouldValidate: true });
 		setValue("mnemonic", mnemonic, { shouldDirty: true, shouldValidate: true });
 	};
@@ -119,6 +112,8 @@ export const CreateWallet = () => {
 			let wallet = getValues("wallet");
 
 			if (params.encryptionPassword) {
+				setIsGeneratingWallet(true);
+
 				try {
 					wallet = await activeProfile.walletFactory().fromMnemonicWithBIP39({
 						coin: network.coin(),
@@ -128,10 +123,19 @@ export const CreateWallet = () => {
 					});
 				} catch {
 					setGenerationError(t("WALLETS.PAGE_CREATE_WALLET.NETWORK_STEP.GENERATION_ERROR"));
+				} finally {
+					setIsGeneratingWallet(false);
 				}
 			}
 
 			assertWallet(wallet);
+
+			wallet.mutator().alias(
+				getDefaultAlias({
+					network,
+					profile: activeProfile,
+				}),
+			);
 
 			setValue("wallet", wallet);
 
@@ -254,7 +258,7 @@ export const CreateWallet = () => {
 
 									{activeTab === 4 && (
 										<Button
-											data-testid="CreateWallet__continue-button"
+											data-testid="CreateWallet__continue-encryption-button"
 											disabled={
 												!isValid ||
 												isGeneratingWallet ||
