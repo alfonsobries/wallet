@@ -76,9 +76,13 @@ const signTransaction = async ({ env, form, profile, signatory }: SendRegistrati
 
 	const transaction: ExtendedSignedTransactionData = senderWallet!.transaction().transaction(transactionId);
 
-	transaction.generatedAddress = (
-		await senderWallet!.coin().address().fromMultiSignature(minParticipants, publicKeys)
-	).address;
+	try {
+		transaction.generatedAddress = (
+			await senderWallet!.coin().address().fromMultiSignature(minParticipants, publicKeys)
+		).address;
+	} catch {
+		// We are using a coin that doesn't support multi-signature address derivation.
+	}
 
 	return transaction;
 };
