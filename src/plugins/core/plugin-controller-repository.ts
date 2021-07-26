@@ -103,7 +103,7 @@ export class PluginControllerRepository {
 		for (const entry of instances) {
 			try {
 				const callback = runUnknownCode(entry.source, entry.sourcePath, {
-					ark: {
+					payvo: {
 						Components: {
 							Box,
 							Button: OriginalButton,

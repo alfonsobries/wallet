@@ -1,5 +1,5 @@
 const React = require("react");
-const { Box, Modal } = globalThis.ark.Components;
+const { Box, Modal } = globalThis.payvo.Components;
 
 module.exports = (api) => {
 	const SignModal = () => {
