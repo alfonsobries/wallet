@@ -1,10 +1,10 @@
 import { Contracts } from "@payvo/profiles";
+import { OriginalButton } from "app/components/Button/OriginalButton";
 import { Checkbox } from "app/components/Checkbox";
 import { Clipboard } from "app/components/Clipboard";
 import { Icon } from "app/components/Icon";
 import { Input, InputCurrency } from "app/components/Input";
 import { Modal } from "app/components/Modal";
-import { OriginalButton } from "app/components/Button/OriginalButton";
 import { Spinner } from "app/components/Spinner";
 import { Table, TableCell, TableRow } from "app/components/Table";
 import { TabPanel, Tabs } from "app/components/Tabs";
