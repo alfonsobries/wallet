@@ -1,4 +1,5 @@
 import { Contracts } from "@payvo/profiles";
+import { Alert } from "app/components/Alert";
 import { OriginalButton } from "app/components/Button/OriginalButton";
 import { Checkbox } from "app/components/Checkbox";
 import { Clipboard } from "app/components/Clipboard";
@@ -106,6 +107,7 @@ export class PluginControllerRepository {
 				const callback = runUnknownCode(entry.source, entry.sourcePath, {
 					payvo: {
 						Components: {
+							Alert,
 							Box,
 							Button: OriginalButton,
 							Checkbox,
