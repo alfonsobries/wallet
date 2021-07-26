@@ -122,7 +122,7 @@ describe("AddRecipient", () => {
 			expect(form.current.getValues("amount")).toEqual("1");
 			expect(getByTestId("SelectDropdown__input")).toHaveValue("bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT");
 			expect(onChange).toHaveBeenCalledWith([
-				{ address: "bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT", amount: expect.any(Number) },
+				{ address: "bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT", alias: "", amount: expect.any(Number) },
 			]);
 		});
 	});
@@ -335,6 +335,66 @@ describe("AddRecipient", () => {
 			expect(getByTestId("SelectDropdown__input")).toBeDisabled();
 			expect(getByTestId("AddRecipient__amount")).toBeDisabled();
 		});
+	});
+
+	it("should show wallet name in recipients' list for multiple type", async () => {
+		let form: ReturnType<typeof useForm>;
+
+		const Component = () => {
+			form = useForm({
+				defaultValues: { fee: 0, network, senderAddress: "D8rr7B1d6TL6pf14LgMz4sKp1VBMs6YUYD" },
+				mode: "onChange",
+			});
+
+			useEffect(() => {
+				form.register("network");
+				form.register("senderAddress");
+			}, []);
+
+			return (
+				<FormProvider {...form}>
+					<AddRecipient profile={profile} wallet={wallet} assetSymbol="ARK" recipients={[]} />
+				</FormProvider>
+			);
+		};
+
+		render(<Component />);
+
+		act(() => {
+			fireEvent.click(screen.getByText(transactionTranslations.MULTIPLE));
+		});
+
+		await act(async () => {
+			fireEvent.click(screen.getByText(transactionTranslations.MULTIPLE));
+		});
+
+		expect(() => screen.getByTestId("modal__inner")).toThrow(/Unable to find an element by/);
+
+		await act(async () => {
+			fireEvent.click(screen.getByTestId("SelectRecipient__select-recipient"));
+		});
+
+		await waitFor(() => {
+			expect(screen.getByTestId("modal__inner")).toBeTruthy();
+		});
+
+		const firstAddress = screen.getAllByTestId("RecipientListItem__select-button")[0];
+		await act(async () => {
+			fireEvent.click(firstAddress);
+		});
+
+		fireEvent.input(screen.getByTestId("AddRecipient__amount"), {
+			target: {
+				value: 1,
+			},
+		});
+
+		fireEvent.click(screen.getByTestId("AddRecipient__add-button"));
+
+		await waitFor(() => expect(screen.getAllByTestId("recipient-list__recipient-list-item")).toHaveLength(1));
+
+		expect(screen.getAllByTestId("Address__alias")).toHaveLength(1);
+		expect(screen.getByText("ARK Wallet 1")).toBeInTheDocument();
 	});
 
 	it("should show error for low balance", async () => {
