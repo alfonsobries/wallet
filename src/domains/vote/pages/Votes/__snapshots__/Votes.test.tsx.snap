@@ -302,6 +302,7 @@ exports[`Votes should filter current delegates 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -1056,6 +1057,7 @@ exports[`Votes should hide testnet wallet if disabled from profile setting 1`] =
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -1916,6 +1918,7 @@ exports[`Votes should render 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -2772,6 +2775,7 @@ exports[`Votes should render and handle wallet current voting exception 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -4000,6 +4004,7 @@ exports[`Votes should select a delegate 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -4857,6 +4862,7 @@ exports[`Votes should select an address without vote 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -5713,6 +5719,7 @@ exports[`Votes should select ledger option in the wallets display type 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -6241,6 +6248,7 @@ exports[`Votes should select starred option in the wallets display type 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -6769,6 +6777,7 @@ exports[`Votes should show network warning 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -7624,6 +7633,7 @@ exports[`Votes should show resigned delegate notice 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
@@ -8516,6 +8526,7 @@ exports[`Votes should toggle network selection from network filters 1`] = `
                   >
                     <button
                       class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                      type="button"
                     >
                       <div
                         class="flex items-center space-x-3 h-5"
