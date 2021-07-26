@@ -7,7 +7,7 @@ exports[`AppearanceForm should render 1`] = `
     data-testid="AppearanceForm"
   >
     <ul
-      class="sc-gtsrHT gbzwCT"
+      class="sc-dlnjwi ddVIoj"
       data-testid="list-divided__items"
     >
       <li
