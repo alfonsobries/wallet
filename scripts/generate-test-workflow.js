@@ -148,8 +148,12 @@ for (const [directory, threshold] of Object.entries(directories)) {
 		"runs-on": "ubuntu-latest",
 		strategy: {
 			matrix: {
-				"node-version": ["12.x"],
+				"node-version": ["14.x"],
 			},
+		},
+		concurrency: {
+			group: `\${{ github.head_ref }}-test-${slugify(directory)}`,
+			"cancel-in-progress": true,
 		},
 		steps: [
 			{
@@ -198,7 +202,7 @@ for (const [directory, threshold] of Object.entries(directories)) {
 			},
 			{
 				name: "Test",
-				run: `./node_modules/react-app-rewired/bin/index.js --expose-gc test src/${directory} --forceExit --maxWorkers=50% --logHeapUsage--watchAll=false --coverage --collectCoverageFrom='${JSON.stringify(
+				run: `./node_modules/react-app-rewired/bin/index.js --expose-gc test src/${directory} --env=./src/tests/custom-env.js --forceExit --maxWorkers=50% --logHeapUsage--watchAll=false --coverage --collectCoverageFrom='${JSON.stringify(
 					collectCoverageFrom,
 				)}' --coverageThreshold='${JSON.stringify(coverageThreshold)}'`,
 			},
