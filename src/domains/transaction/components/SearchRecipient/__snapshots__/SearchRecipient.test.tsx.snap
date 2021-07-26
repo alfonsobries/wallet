@@ -149,7 +149,8 @@ exports[`SearchRecipient should not render recipient if not in same network 1`] 
                                 class="group"
                               >
                                 <button
-                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 gPoGMb ring-focus"
+                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                                  type="button"
                                 >
                                   <div
                                     class="flex items-center space-x-3 h-5"
@@ -336,7 +337,8 @@ exports[`SearchRecipient should not render recipient if not in same network 2`] 
                                 class="group"
                               >
                                 <button
-                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 gPoGMb ring-focus"
+                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                                  type="button"
                                 >
                                   <div
                                     class="flex items-center space-x-3 h-5"
@@ -820,7 +822,8 @@ exports[`SearchRecipient should render a modal 1`] = `
                                 class="group"
                               >
                                 <button
-                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 gPoGMb ring-focus"
+                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                                  type="button"
                                 >
                                   <div
                                     class="flex items-center space-x-3 h-5"
@@ -1378,7 +1381,8 @@ exports[`SearchRecipient should render a modal with custom title and description
                                 class="group"
                               >
                                 <button
-                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 gPoGMb ring-focus"
+                                  class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+                                  type="button"
                                 >
                                   <div
                                     class="flex items-center space-x-3 h-5"

@@ -11,6 +11,7 @@ exports[`HeaderSearchBar should render 1`] = `
     >
       <button
         class="ControlButton__ControlButtonStyled-sc-1l8cuc8-0 cWmnHb ring-focus"
+        type="button"
       >
         <div
           class="flex items-center space-x-3 h-5"
