@@ -70,12 +70,12 @@ exports[`Add Participant should fail if cannot find the address remotely 1`] = `
                 <div
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-owns="downshift-33-menu"
+                  aria-owns="downshift-36-menu"
                   role="combobox"
                 >
                   <label
-                    for="downshift-33-input"
-                    id="downshift-33-label"
+                    for="downshift-36-input"
+                    id="downshift-36-label"
                   />
                   <div
                     class="fixed invisible w-auto whitespace-nowrap"
@@ -108,13 +108,13 @@ exports[`Add Participant should fail if cannot find the address remotely 1`] = `
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="downshift-33-menu"
+                        aria-controls="downshift-36-menu"
                         aria-invalid="true"
-                        aria-labelledby="downshift-33-label"
+                        aria-labelledby="downshift-36-label"
                         autocomplete="off"
                         class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full"
                         data-testid="SelectDropdown__input"
-                        id="downshift-33-input"
+                        id="downshift-36-input"
                         name="address"
                         placeholder="Select option"
                         value="DC8ghUdhS8w8d11K8cFQ37YsLBFhL3Dq20"
@@ -158,9 +158,9 @@ exports[`Add Participant should fail if cannot find the address remotely 1`] = `
                     </div>
                   </div>
                   <ul
-                    aria-labelledby="downshift-33-label"
+                    aria-labelledby="downshift-36-label"
                     class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr"
-                    id="downshift-33-menu"
+                    id="downshift-36-menu"
                     role="listbox"
                   />
                 </div>
@@ -732,12 +732,12 @@ exports[`Add Participant should fail with a duplicate address 1`] = `
                 <div
                   aria-expanded="true"
                   aria-haspopup="listbox"
-                  aria-owns="downshift-26-menu"
+                  aria-owns="downshift-28-menu"
                   role="combobox"
                 >
                   <label
-                    for="downshift-26-input"
-                    id="downshift-26-label"
+                    for="downshift-28-input"
+                    id="downshift-28-label"
                   />
                   <div
                     class="fixed invisible w-auto whitespace-nowrap"
@@ -776,13 +776,13 @@ exports[`Add Participant should fail with a duplicate address 1`] = `
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="downshift-26-menu"
+                        aria-controls="downshift-28-menu"
                         aria-invalid="true"
-                        aria-labelledby="downshift-26-label"
+                        aria-labelledby="downshift-28-label"
                         autocomplete="off"
                         class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full"
                         data-testid="SelectDropdown__input"
-                        id="downshift-26-input"
+                        id="downshift-28-input"
                         name="address"
                         placeholder="Select option"
                         value="D8rr7B1d6TL6pf14LgMz4sKp1VBMs6YUYD"
@@ -836,16 +836,16 @@ exports[`Add Participant should fail with a duplicate address 1`] = `
                     </div>
                   </div>
                   <ul
-                    aria-labelledby="downshift-26-label"
+                    aria-labelledby="downshift-28-label"
                     class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr is-open"
-                    id="downshift-26-menu"
+                    id="downshift-28-menu"
                     role="listbox"
                   >
                     <li
                       aria-selected="false"
                       class="select-list-option is-selected"
                       data-testid="SelectDropdown__option--0"
-                      id="downshift-26-item-0"
+                      id="downshift-28-item-0"
                       role="option"
                     >
                       <div
@@ -1131,12 +1131,12 @@ exports[`Add Participant should fail with cold wallet 1`] = `
                 <div
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-owns="downshift-13-menu"
+                  aria-owns="downshift-14-menu"
                   role="combobox"
                 >
                   <label
-                    for="downshift-13-input"
-                    id="downshift-13-label"
+                    for="downshift-14-input"
+                    id="downshift-14-label"
                   />
                   <div
                     class="fixed invisible w-auto whitespace-nowrap"
@@ -1169,13 +1169,13 @@ exports[`Add Participant should fail with cold wallet 1`] = `
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="downshift-13-menu"
+                        aria-controls="downshift-14-menu"
                         aria-invalid="true"
-                        aria-labelledby="downshift-13-label"
+                        aria-labelledby="downshift-14-label"
                         autocomplete="off"
                         class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full"
                         data-testid="SelectDropdown__input"
-                        id="downshift-13-input"
+                        id="downshift-14-input"
                         name="address"
                         placeholder="Select option"
                         value="DC8ghUdhS8w8d11K8cFQ37YsLBFhL3Dq2P"
@@ -1219,9 +1219,9 @@ exports[`Add Participant should fail with cold wallet 1`] = `
                     </div>
                   </div>
                   <ul
-                    aria-labelledby="downshift-13-label"
+                    aria-labelledby="downshift-14-label"
                     class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr"
-                    id="downshift-13-menu"
+                    id="downshift-14-menu"
                     role="listbox"
                   />
                 </div>
@@ -1444,12 +1444,12 @@ exports[`Add Participant should render custom participants 1`] = `
                 <div
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-owns="downshift-86-menu"
+                  aria-owns="downshift-92-menu"
                   role="combobox"
                 >
                   <label
-                    for="downshift-86-input"
-                    id="downshift-86-label"
+                    for="downshift-92-input"
+                    id="downshift-92-label"
                   />
                   <div
                     class="fixed invisible w-auto whitespace-nowrap"
@@ -1471,13 +1471,13 @@ exports[`Add Participant should render custom participants 1`] = `
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="downshift-86-menu"
+                        aria-controls="downshift-92-menu"
                         aria-invalid="false"
-                        aria-labelledby="downshift-86-label"
+                        aria-labelledby="downshift-92-label"
                         autocomplete="off"
                         class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full cursor-default"
                         data-testid="SelectDropdown__input"
-                        id="downshift-86-input"
+                        id="downshift-92-input"
                         name="address"
                         placeholder="Select option"
                         value=""
@@ -1507,9 +1507,9 @@ exports[`Add Participant should render custom participants 1`] = `
                     </div>
                   </div>
                   <ul
-                    aria-labelledby="downshift-86-label"
+                    aria-labelledby="downshift-92-label"
                     class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr"
-                    id="downshift-86-menu"
+                    id="downshift-92-menu"
                     role="listbox"
                   />
                 </div>
@@ -1732,12 +1732,12 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                 <div
                   aria-expanded="true"
                   aria-haspopup="listbox"
-                  aria-owns="downshift-64-menu"
+                  aria-owns="downshift-69-menu"
                   role="combobox"
                 >
                   <label
-                    for="downshift-64-input"
-                    id="downshift-64-label"
+                    for="downshift-69-input"
+                    id="downshift-69-label"
                   />
                   <div
                     class="fixed invisible w-auto whitespace-nowrap"
@@ -1759,13 +1759,13 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="downshift-64-menu"
+                        aria-controls="downshift-69-menu"
                         aria-invalid="false"
-                        aria-labelledby="downshift-64-label"
+                        aria-labelledby="downshift-69-label"
                         autocomplete="off"
                         class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full cursor-default"
                         data-testid="SelectDropdown__input"
-                        id="downshift-64-input"
+                        id="downshift-69-input"
                         name="address"
                         placeholder="Select option"
                         value=""
@@ -1795,16 +1795,16 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                     </div>
                   </div>
                   <ul
-                    aria-labelledby="downshift-64-label"
+                    aria-labelledby="downshift-69-label"
                     class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr is-open"
-                    id="downshift-64-menu"
+                    id="downshift-69-menu"
                     role="listbox"
                   >
                     <li
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--0"
-                      id="downshift-64-item-0"
+                      id="downshift-69-item-0"
                       role="option"
                     >
                       <div
@@ -1855,7 +1855,7 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--1"
-                      id="downshift-64-item-1"
+                      id="downshift-69-item-1"
                       role="option"
                     >
                       <div
@@ -1906,7 +1906,7 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--2"
-                      id="downshift-64-item-2"
+                      id="downshift-69-item-2"
                       role="option"
                     >
                       <div
@@ -1957,7 +1957,7 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--3"
-                      id="downshift-64-item-3"
+                      id="downshift-69-item-3"
                       role="option"
                     >
                       <div
@@ -2008,7 +2008,7 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--4"
-                      id="downshift-64-item-4"
+                      id="downshift-69-item-4"
                       role="option"
                     >
                       <div
@@ -2059,7 +2059,7 @@ exports[`Add Participant should work with a remote wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--5"
-                      id="downshift-64-item-5"
+                      id="downshift-69-item-5"
                       role="option"
                     >
                       <div
@@ -2403,12 +2403,12 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                 <div
                   aria-expanded="true"
                   aria-haspopup="listbox"
-                  aria-owns="downshift-46-menu"
+                  aria-owns="downshift-50-menu"
                   role="combobox"
                 >
                   <label
-                    for="downshift-46-input"
-                    id="downshift-46-label"
+                    for="downshift-50-input"
+                    id="downshift-50-label"
                   />
                   <div
                     class="fixed invisible w-auto whitespace-nowrap"
@@ -2430,13 +2430,13 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="downshift-46-menu"
+                        aria-controls="downshift-50-menu"
                         aria-invalid="false"
-                        aria-labelledby="downshift-46-label"
+                        aria-labelledby="downshift-50-label"
                         autocomplete="off"
                         class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full cursor-default"
                         data-testid="SelectDropdown__input"
-                        id="downshift-46-input"
+                        id="downshift-50-input"
                         name="address"
                         placeholder="Select option"
                         value=""
@@ -2466,16 +2466,16 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                     </div>
                   </div>
                   <ul
-                    aria-labelledby="downshift-46-label"
+                    aria-labelledby="downshift-50-label"
                     class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr is-open"
-                    id="downshift-46-menu"
+                    id="downshift-50-menu"
                     role="listbox"
                   >
                     <li
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--0"
-                      id="downshift-46-item-0"
+                      id="downshift-50-item-0"
                       role="option"
                     >
                       <div
@@ -2526,7 +2526,7 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--1"
-                      id="downshift-46-item-1"
+                      id="downshift-50-item-1"
                       role="option"
                     >
                       <div
@@ -2577,7 +2577,7 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--2"
-                      id="downshift-46-item-2"
+                      id="downshift-50-item-2"
                       role="option"
                     >
                       <div
@@ -2628,7 +2628,7 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--3"
-                      id="downshift-46-item-3"
+                      id="downshift-50-item-3"
                       role="option"
                     >
                       <div
@@ -2679,7 +2679,7 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--4"
-                      id="downshift-46-item-4"
+                      id="downshift-50-item-4"
                       role="option"
                     >
                       <div
@@ -2730,7 +2730,7 @@ exports[`Add Participant should work with an imported wallet 1`] = `
                       aria-selected="false"
                       class="select-list-option"
                       data-testid="SelectDropdown__option--5"
-                      id="downshift-46-item-5"
+                      id="downshift-50-item-5"
                       role="option"
                     >
                       <div
