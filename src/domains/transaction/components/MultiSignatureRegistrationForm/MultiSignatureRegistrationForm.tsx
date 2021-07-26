@@ -54,27 +54,16 @@ const signTransaction = async ({ env, form, profile, signatory }: SendRegistrati
 		},
 		fee: +fee,
 		nonce: senderWallet!.nonce().plus(1).toString(),
-		signatory: await senderWallet!
-			.coin()
-			.signatory()
-			.multiSignature(+minParticipants, publicKeys),
+		signatory,
 	});
 
 	const { accepted, rejected, errors } = await senderWallet!.transaction().broadcast(uuid);
 
 	handleBroadcastError({ accepted, errors, rejected });
 
-	const transactionId = accepted[0];
-
-	// Need to sync before too to make sure we have all transactions from the server.
-	await senderWallet!.transaction().sync();
-	await senderWallet!.transaction().addSignature(transactionId, signatory);
-
-	await senderWallet!.transaction().sync();
-
 	await env.persist();
 
-	const transaction: ExtendedSignedTransactionData = senderWallet!.transaction().transaction(transactionId);
+	const transaction: ExtendedSignedTransactionData = senderWallet!.transaction().transaction(accepted[0]);
 
 	try {
 		transaction.generatedAddress = (
