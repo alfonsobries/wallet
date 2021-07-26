@@ -51,14 +51,14 @@ type ControlButtonProperties = {
 	noBorder?: boolean;
 } & React.ButtonHTMLAttributes<any>;
 
-export const ControlButton = ({ isChanged, children, className, noBorder, ...properties }: ControlButtonProperties) => (
+export const ControlButton = ({ isChanged, children, className, ...properties }: ControlButtonProperties) => (
 	<div className="group">
 		<ControlButtonStyled className={cn("ring-focus", className)} {...properties}>
 			{isChanged && (
 				<div
 					className={cn(
 						"flex absolute right-0 justify-center items-center -mt-3 w-3 h-3 rounded-full transition-all duration-100 ease-linear bg-theme-background",
-						noBorder ? "-mr-1.5" : "mr-1",
+						properties.noBorder ? "-mr-1.5" : "mr-1",
 					)}
 				>
 					<div className="w-2 h-2 rounded-full bg-theme-primary-500" />
