@@ -31,8 +31,6 @@ export interface SendRegistrationSignOptions {
 export interface SendRegistrationForm {
 	transactionDetails: ({ transaction, translations, wallet }: SendRegistrationDetailsOptions) => JSX.Element;
 
-	signTransaction: (options: SendRegistrationSignOptions) => Promise<DTO.ExtendedSignedTransactionData>;
-
 	tabSteps: number;
 
 	formFields: string[];

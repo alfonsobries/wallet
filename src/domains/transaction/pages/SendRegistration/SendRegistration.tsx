@@ -8,11 +8,18 @@ import { TabPanel, Tabs } from "app/components/Tabs";
 import { useEnvironmentContext, useLedgerContext } from "app/contexts";
 import { useActiveProfile, useActiveWallet, useFees, usePrevious } from "app/hooks";
 import { AuthenticationStep } from "domains/transaction/components/AuthenticationStep";
-import { DelegateRegistrationForm } from "domains/transaction/components/DelegateRegistrationForm";
 import { ErrorStep } from "domains/transaction/components/ErrorStep";
 import { FeeWarning } from "domains/transaction/components/FeeWarning";
 import { MultiSignatureRegistrationForm } from "domains/transaction/components/MultiSignatureRegistrationForm";
-import { SecondSignatureRegistrationForm } from "domains/transaction/components/SecondSignatureRegistrationForm";
+import {
+	SecondSignatureRegistrationForm,
+	signSecondSignatureRegistration,
+} from "domains/transaction/components/SecondSignatureRegistrationForm";
+import {
+	DelegateRegistrationForm,
+	signDelegateRegistration,
+} from "domains/transaction/components/DelegateRegistrationForm";
+
 import { useFeeConfirmation, useMultiSignatureRegistration, useWalletSignatory } from "domains/transaction/hooks";
 import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -158,15 +165,29 @@ export const SendRegistration = () => {
 				return;
 			}
 
-			const transaction = await registrationForm!.signTransaction({
-				env,
-				form,
-				profile: activeProfile,
-				signatory,
-			});
+			if (registrationType === "secondSignature") {
+				const transaction = await signSecondSignatureRegistration({
+					env,
+					form,
+					profile: activeProfile,
+					signatory,
+				});
 
-			setTransaction(transaction);
-			handleNext();
+				setTransaction(transaction!);
+				handleNext();
+			}
+
+			if (registrationType === "delegateRegistration") {
+				const transaction = await signDelegateRegistration({
+					env,
+					form,
+					profile: activeProfile,
+					signatory,
+				});
+
+				setTransaction(transaction!);
+				handleNext();
+			}
 		} catch (error) {
 			setErrorMessage(JSON.stringify({ message: error.message, type: error.name }));
 			setActiveTab(10);
