@@ -28,27 +28,15 @@ describe("MultiSignature Registration Form", () => {
 	let wallet2: ProfilesContracts.IReadWriteWallet;
 	let fees: TransactionFees;
 
-	const createTransactionMock = (wallet: ProfilesContracts.IReadWriteWallet) =>
-		// @ts-ignore
-		jest.spyOn(wallet.transaction(), "transaction").mockReturnValue({
-			amount: () => multiSignatureFixture.data.amount / 1e8,
-			data: () => ({ data: () => multiSignatureFixture.data }),
-			explorerLink: () => `https://dexplorer.ark.io/transaction/${multiSignatureFixture.data.id}`,
-			fee: () => multiSignatureFixture.data.fee / 1e8,
-			id: () => multiSignatureFixture.data.id,
-			recipient: () => multiSignatureFixture.data.recipient,
-			sender: () => multiSignatureFixture.data.sender,
-		});
-
 	beforeEach(async () => {
 		profile = env.profiles().findById(getDefaultProfileId());
 		wallet = profile.wallets().first();
 		wallet2 = profile.wallets().last();
 		fees = {
-			avg: "1.354",
-			max: "10",
-			min: "0",
-			static: "0",
+			avg: 1.354,
+			max: 10,
+			min: 0,
+			static: 0,
 		};
 
 		await profile.sync();
