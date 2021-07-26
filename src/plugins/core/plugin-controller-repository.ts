@@ -1,10 +1,14 @@
 import { Contracts } from "@payvo/profiles";
+import { Button } from "app/components/Button";
 import { Checkbox } from "app/components/Checkbox";
 import { Clipboard } from "app/components/Clipboard";
+import { Icon } from "app/components/Icon";
 import { Input, InputCurrency } from "app/components/Input";
 import { Modal } from "app/components/Modal";
 import { Spinner } from "app/components/Spinner";
 import { TabPanel, Tabs } from "app/components/Tabs";
+import { Table, TableCell, TableRow } from "app/components/Table";
+import { Tooltip } from "app/components/Tooltip";
 import { runUnknownCode } from "plugins/loader/vm";
 
 import { Box } from "../components/shared/Box";
@@ -100,7 +104,23 @@ export class PluginControllerRepository {
 			try {
 				const callback = runUnknownCode(entry.source, entry.sourcePath, {
 					ark: {
-						Components: { Box, Checkbox, Clipboard, Input, InputCurrency, Modal, Spinner, TabPanel, Tabs },
+						Components: {
+							Box,
+							Button,
+							Checkbox,
+							Clipboard,
+							Icon,
+							Input,
+							InputCurrency,
+							Modal,
+							Spinner,
+							TabPanel,
+							Tabs,
+							Table,
+							TableCell,
+							TableRow,
+							Tooltip,
+						},
 					},
 				});
 				const plugin = new PluginController(
