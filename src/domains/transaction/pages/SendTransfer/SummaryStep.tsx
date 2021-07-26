@@ -1,4 +1,6 @@
 import { Contracts, DTO } from "@payvo/profiles";
+import { useWalletAlias } from "app/hooks";
+import { RecipientListItem } from "domains/transaction/components/RecipientList/RecipientList.models";
 import {
 	TransactionAmount,
 	TransactionFee,
@@ -8,22 +10,38 @@ import { TransactionSuccessful } from "domains/transaction/components/Transactio
 import React from "react";
 
 export const SummaryStep = ({
-	transaction,
+	profile,
 	senderWallet,
+	transaction,
 }: {
-	transaction: DTO.ExtendedSignedTransactionData;
+	profile: Contracts.IProfile;
 	senderWallet: Contracts.IReadWriteWallet;
-}): JSX.Element => (
-	<TransactionSuccessful transaction={transaction} senderWallet={senderWallet}>
-		<TransactionRecipients currency={senderWallet.currency()} recipients={transaction.recipients()} />
+	transaction: DTO.ExtendedSignedTransactionData;
+}): JSX.Element => {
+	const { getWalletAlias } = useWalletAlias();
 
-		<TransactionAmount
-			amount={transaction.amount()}
-			currency={senderWallet.currency()}
-			isMultiPayment={transaction.recipients().length > 1}
-			isSent={true}
-		/>
+	const recipients: RecipientListItem[] = transaction.recipients().map((recipient) => {
+		const { alias, isDelegate } = getWalletAlias({
+			address: recipient.address,
+			network: senderWallet.network(),
+			profile,
+		});
 
-		<TransactionFee currency={senderWallet.currency()} value={transaction.fee()} paddingPosition="top" />
-	</TransactionSuccessful>
-);
+		return { alias, isDelegate, ...recipient };
+	});
+
+	return (
+		<TransactionSuccessful transaction={transaction} senderWallet={senderWallet}>
+			<TransactionRecipients currency={senderWallet.currency()} recipients={recipients} />
+
+			<TransactionAmount
+				amount={transaction.amount()}
+				currency={senderWallet.currency()}
+				isMultiPayment={transaction.recipients().length > 1}
+				isSent={true}
+			/>
+
+			<TransactionFee currency={senderWallet.currency()} value={transaction.fee()} paddingPosition="top" />
+		</TransactionSuccessful>
+	);
+};

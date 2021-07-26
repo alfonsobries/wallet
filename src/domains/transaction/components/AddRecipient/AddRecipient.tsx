@@ -6,7 +6,7 @@ import { Icon } from "app/components/Icon";
 import { InputCurrency } from "app/components/Input";
 import { Switch } from "app/components/Switch";
 import { Tooltip } from "app/components/Tooltip";
-import { useValidation } from "app/hooks";
+import { useValidation, useWalletAlias } from "app/hooks";
 import { useExchangeRate } from "app/hooks/use-exchange-rate";
 import cn from "classnames";
 import { SelectRecipient } from "domains/profile/components/SelectRecipient";
@@ -106,6 +106,8 @@ export const AddRecipient = ({
 	const ticker = network?.ticker();
 	const exchangeTicker = profile.settings().get<string>(Contracts.ProfileSetting.ExchangeCurrency) as string;
 	const { convert } = useExchangeRate({ exchangeTicker, ticker });
+
+	const { getWalletAlias } = useWalletAlias();
 
 	const maxRecipients = network?.multiPaymentRecipients() ?? 0;
 
@@ -243,19 +245,31 @@ export const AddRecipient = ({
 			return onChange?.([]);
 		}
 
+		const { alias, isDelegate } = getWalletAlias({
+			address: recipientAddressValue,
+			network,
+			profile,
+		});
+
 		onChange?.([
 			{
 				address: recipientAddressValue,
+				alias,
 				amount: +amountValue,
+				isDelegate,
 			},
 		]);
 	};
 
 	const handleAddRecipient = (address: string, amount: number, displayAmount: string) => {
+		const { alias, isDelegate } = getWalletAlias({ address, network, profile });
+
 		let newRecipient: RecipientListItem = {
 			address,
+			alias,
 			amount: +amount,
 			displayAmount,
+			isDelegate,
 		};
 
 		/* istanbul ignore next */

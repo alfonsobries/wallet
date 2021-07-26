@@ -359,7 +359,7 @@ describe("SendTransfer", () => {
 
 		const { getByTestId, asFragment } = render(
 			<FormProvider {...form.current}>
-				<SummaryStep transaction={transaction} senderWallet={wallet} />
+				<SummaryStep transaction={transaction} senderWallet={wallet} profile={profile} />
 			</FormProvider>,
 		);
 

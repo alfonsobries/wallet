@@ -10,6 +10,7 @@ export interface RecipientListItem {
 	listIndex?: number;
 	variant?: "condensed";
 	alias?: string;
+	isDelegate?: boolean;
 	showAmount?: boolean;
 	tooltipDisabled?: string;
 	disableButton?: (address: string) => boolean;

@@ -396,7 +396,13 @@ export const SendTransfer = () => {
 							</TabPanel>
 
 							<TabPanel tabId={4}>
-								{!!transaction && <SummaryStep transaction={transaction} senderWallet={wallet!} />}
+								{!!transaction && (
+									<SummaryStep
+										transaction={transaction}
+										senderWallet={wallet!}
+										profile={activeProfile}
+									/>
+								)}
 							</TabPanel>
 
 							<TabPanel tabId={5}>

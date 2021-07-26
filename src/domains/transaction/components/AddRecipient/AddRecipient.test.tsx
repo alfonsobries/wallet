@@ -99,6 +99,12 @@ describe("AddRecipient", () => {
 
 	it("should set amount", async () => {
 		const onChange = jest.fn();
+		const findDelegateSpy = jest.spyOn(env.delegates(), "findByAddress").mockImplementation(
+			() =>
+				({
+					username: () => "delegate username",
+				} as any),
+		);
 
 		const { getByTestId, form } = await renderWithFormProvider(
 			<AddRecipient profile={profile} wallet={wallet} assetSymbol="ARK" onChange={onChange} />,
@@ -118,13 +124,19 @@ describe("AddRecipient", () => {
 			});
 		});
 
-		await waitFor(() => {
-			expect(form.current.getValues("amount")).toEqual("1");
-			expect(getByTestId("SelectDropdown__input")).toHaveValue("bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT");
-			expect(onChange).toHaveBeenCalledWith([
-				{ address: "bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT", amount: expect.any(Number) },
-			]);
-		});
+		await waitFor(() => expect(form.current.getValues("amount")).toEqual("1"));
+
+		expect(getByTestId("SelectDropdown__input")).toHaveValue("bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT");
+		expect(onChange).toHaveBeenCalledWith([
+			{
+				address: "bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT",
+				alias: "delegate username",
+				amount: 1,
+				isDelegate: true,
+			},
+		]);
+
+		findDelegateSpy.mockRestore();
 	});
 
 	it("should select recipient", async () => {
