@@ -74,11 +74,11 @@ const InputButtonStyled = styled.button(() => [
 ]);
 
 export const AddRecipient = ({
-	assetSymbol,
+	assetSymbol = "ARK",
 	profile,
 	wallet,
-	recipients,
-	showMultiPaymentOption,
+	recipients = [],
+	showMultiPaymentOption = true,
 	disableMultiPaymentOption,
 	withDeeplink,
 	onChange,
@@ -132,7 +132,7 @@ export const AddRecipient = ({
 	const clearFields = useCallback(() => {
 		setValue("amount", undefined);
 		setValue("displayAmount", undefined);
-		setValue("recipientAddress", null);
+		setValue("recipientAddress", undefined);
 	}, [setValue]);
 
 	useEffect(() => {
@@ -343,7 +343,7 @@ export const AddRecipient = ({
 							address={recipientAddress}
 							profile={profile}
 							placeholder={t("COMMON.ADDRESS")}
-							onChange={(address: any) => {
+							onChange={(address: string) => {
 								setValue("recipientAddress", address, { shouldDirty: true, shouldValidate: true });
 								singleRecipientOnChange(getValues("amount"), address);
 							}}
@@ -449,10 +449,4 @@ export const AddRecipient = ({
 			)}
 		</AddRecipientWrapper>
 	);
-};
-
-AddRecipient.defaultProps = {
-	assetSymbol: "ARK",
-	recipients: [],
-	showMultiPaymentOption: true,
 };

@@ -83,6 +83,7 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 
 		const isInvalidValue = isInvalid || fieldContext?.isInvalid;
 
+		// Modify the address from parent component
 		useEffect(() => {
 			if (address === selectedAddress) {
 				return;
