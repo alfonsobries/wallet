@@ -52,30 +52,31 @@ transactionDetails.displayName = "SecondSignatureRegistrationFormTransactionDeta
 export const SecondSignatureRegistrationForm: SendRegistrationForm = {
 	component,
 	formFields: ["secondMnemonic", "verification"],
-	signTransaction: async ({ env, form, profile, signatory }: any) => {
-		const { clearErrors, getValues } = form;
-
-		clearErrors("mnemonic");
-		const { fee, senderAddress, secondMnemonic } = getValues();
-		const senderWallet = profile.wallets().findByAddress(senderAddress);
-
-		const transactionId = await senderWallet.transaction().signSecondSignature({
-			data: {
-				mnemonic: secondMnemonic,
-			},
-			fee: +fee,
-			signatory,
-		});
-
-		const response = await senderWallet.transaction().broadcast(transactionId);
-
-		handleBroadcastError(response);
-
-		await env.persist();
-
-		return senderWallet.transaction().transaction(transactionId);
-	},
 	tabSteps: 4,
 
 	transactionDetails,
+};
+
+export const signSecondSignatureRegistration = async ({ env, form, profile, signatory }: any) => {
+	const { clearErrors, getValues } = form;
+
+	clearErrors("mnemonic");
+	const { fee, senderAddress, secondMnemonic } = getValues();
+	const senderWallet = profile.wallets().findByAddress(senderAddress);
+
+	const transactionId = await senderWallet.transaction().signSecondSignature({
+		data: {
+			mnemonic: secondMnemonic,
+		},
+		fee: +fee,
+		signatory,
+	});
+
+	const response = await senderWallet.transaction().broadcast(transactionId);
+
+	handleBroadcastError(response);
+
+	await env.persist();
+
+	return senderWallet.transaction().transaction(transactionId);
 };

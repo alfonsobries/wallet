@@ -16,7 +16,7 @@ import * as utils from "utils/electron-utils";
 import { env, fireEvent, getDefaultProfileId, MNEMONICS, render, screen, waitFor } from "utils/testing-library";
 
 import { translations as transactionTranslations } from "../../i18n";
-import { SecondSignatureRegistrationForm } from "./SecondSignatureRegistrationForm";
+import { SecondSignatureRegistrationForm, signSecondSignatureRegistration } from "./SecondSignatureRegistrationForm";
 
 describe("SecondSignatureRegistrationForm", () => {
 	const passphrase = "power return attend drink piece found tragic fire liar page disease combine";
@@ -339,7 +339,7 @@ describe("SecondSignatureRegistrationForm", () => {
 		});
 		const transactionMock = createTransactionMock(wallet);
 
-		await SecondSignatureRegistrationForm.signTransaction({
+		await signSecondSignatureRegistration({
 			env,
 			form,
 			profile,
@@ -381,7 +381,7 @@ describe("SecondSignatureRegistrationForm", () => {
 		});
 		const transactionMock = createTransactionMock(wallet);
 
-		await SecondSignatureRegistrationForm.signTransaction({
+		await signSecondSignatureRegistration({
 			env,
 			form,
 			profile,
