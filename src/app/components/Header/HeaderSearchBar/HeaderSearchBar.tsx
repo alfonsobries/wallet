@@ -60,7 +60,12 @@ export const HeaderSearchBar = ({
 
 	return (
 		<div data-testid="HeaderSearchBar" className="relative">
-			<ControlButton isChanged={!!query} noBorder={noToggleBorder} onClick={() => setSearchbarVisible(true)}>
+			<ControlButton
+				isChanged={!!query}
+				noBorder={noToggleBorder}
+				onClick={() => setSearchbarVisible(true)}
+				type="button"
+			>
 				<div className="flex items-center space-x-3 h-5">
 					<span>{label}</span>
 					<Icon name="Search" size="lg" />
