@@ -52,7 +52,9 @@ export function assertNumber(value: unknown): asserts value is NonNullable<numbe
 	}
 }
 
-export function assertPluginController(pluginController?: PluginController): asserts pluginController is PluginController {
+export function assertPluginController(
+	pluginController?: PluginController,
+): asserts pluginController is PluginController {
 	if (!(pluginController instanceof PluginController)) {
 		throw new AssertionError({
 			message: `Expected 'pluginController' to be PluginController, but received ${pluginController}`,

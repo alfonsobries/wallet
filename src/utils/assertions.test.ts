@@ -173,15 +173,29 @@ describe("#assertPluginController", () => {
 		expect(() => assertPluginController(undefined)).toThrow(
 			"Expected 'pluginController' to be PluginController, but received undefined",
 		);
-		expect(() => assertPluginController(null)).toThrow("Expected 'pluginController' to be PluginController, but received null");
-		expect(() => assertPluginController(true)).toThrow("Expected 'pluginController' to be PluginController, but received true");
-		expect(() => assertPluginController(false)).toThrow("Expected 'pluginController' to be PluginController, but received false");
-		expect(() => assertPluginController("")).toThrow("Expected 'pluginController' to be PluginController, but received ");
-		expect(() => assertPluginController("a")).toThrow("Expected 'pluginController' to be PluginController, but received a");
-		expect(() => assertPluginController(1)).toThrow("Expected 'pluginController' to be PluginController, but received 1");
+		expect(() => assertPluginController(null)).toThrow(
+			"Expected 'pluginController' to be PluginController, but received null",
+		);
+		expect(() => assertPluginController(true)).toThrow(
+			"Expected 'pluginController' to be PluginController, but received true",
+		);
+		expect(() => assertPluginController(false)).toThrow(
+			"Expected 'pluginController' to be PluginController, but received false",
+		);
+		expect(() => assertPluginController("")).toThrow(
+			"Expected 'pluginController' to be PluginController, but received ",
+		);
+		expect(() => assertPluginController("a")).toThrow(
+			"Expected 'pluginController' to be PluginController, but received a",
+		);
+		expect(() => assertPluginController(1)).toThrow(
+			"Expected 'pluginController' to be PluginController, but received 1",
+		);
 		expect(() => assertPluginController({})).toThrow(
 			"Expected 'pluginController' to be PluginController, but received [object Object]",
 		);
-		expect(() => assertPluginController([])).toThrow("Expected 'pluginController' to be PluginController, but received ");
+		expect(() => assertPluginController([])).toThrow(
+			"Expected 'pluginController' to be PluginController, but received ",
+		);
 	});
 });

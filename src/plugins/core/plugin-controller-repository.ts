@@ -6,8 +6,8 @@ import { Icon } from "app/components/Icon";
 import { Input, InputCurrency } from "app/components/Input";
 import { Modal } from "app/components/Modal";
 import { Spinner } from "app/components/Spinner";
-import { TabPanel, Tabs } from "app/components/Tabs";
 import { Table, TableCell, TableRow } from "app/components/Table";
+import { TabPanel, Tabs } from "app/components/Tabs";
 import { Tooltip } from "app/components/Tooltip";
 import { runUnknownCode } from "plugins/loader/vm";
 
@@ -115,10 +115,10 @@ export class PluginControllerRepository {
 							Modal,
 							Spinner,
 							TabPanel,
-							Tabs,
 							Table,
 							TableCell,
 							TableRow,
+							Tabs,
 							Tooltip,
 						},
 					},
