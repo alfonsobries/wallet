@@ -102,7 +102,9 @@ export const SearchRecipient = ({
 		>
 			<div className="mt-8">
 				<Table columns={columns} data={filteredRecipients}>
-					{(recipient: RecipientProperties) => <RecipientListItem recipient={recipient} onAction={onAction} />}
+					{(recipient: RecipientProperties) => (
+						<RecipientListItem recipient={recipient} onAction={onAction} />
+					)}
 				</Table>
 
 				{isEmptyResults && (
