@@ -53,29 +53,30 @@ transactionDetails.displayName = "DelegateRegistrationFormTransactionDetails";
 export const DelegateRegistrationForm: SendRegistrationForm = {
 	component,
 	formFields: ["username"],
-	signTransaction: async ({ env, form, profile, signatory }: any) => {
-		const { clearErrors, getValues } = form;
-
-		clearErrors("mnemonic");
-		const { fee, senderAddress, username } = getValues();
-		const senderWallet = profile.wallets().findByAddress(senderAddress);
-
-		const transactionId = await senderWallet.transaction().signDelegateRegistration({
-			data: {
-				username,
-			},
-			fee: +fee,
-			signatory,
-		});
-
-		const response = await senderWallet.transaction().broadcast(transactionId);
-
-		handleBroadcastError(response);
-
-		await env.persist();
-
-		return senderWallet.transaction().transaction(transactionId);
-	},
 	tabSteps: 2,
 	transactionDetails,
+};
+
+export const signDelegateRegistration = async ({ env, form, profile, signatory }: any) => {
+	const { clearErrors, getValues } = form;
+
+	clearErrors("mnemonic");
+	const { fee, senderAddress, username } = getValues();
+	const senderWallet = profile.wallets().findByAddress(senderAddress);
+
+	const transactionId = await senderWallet.transaction().signDelegateRegistration({
+		data: {
+			username,
+		},
+		fee: +fee,
+		signatory,
+	});
+
+	const response = await senderWallet.transaction().broadcast(transactionId);
+
+	handleBroadcastError(response);
+
+	await env.persist();
+
+	return senderWallet.transaction().transaction(transactionId);
 };

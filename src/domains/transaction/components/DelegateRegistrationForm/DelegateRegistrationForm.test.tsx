@@ -17,7 +17,7 @@ import {
 	waitFor,
 } from "utils/testing-library";
 
-import { DelegateRegistrationForm } from "./DelegateRegistrationForm";
+import { DelegateRegistrationForm, signDelegateRegistration } from "./DelegateRegistrationForm";
 
 let profile: ProfilesContracts.IProfile;
 let wallet: ProfilesContracts.IReadWriteWallet;
@@ -241,7 +241,7 @@ describe("DelegateRegistrationForm", () => {
 		});
 		const transactionMock = createTransactionMock(wallet);
 
-		await DelegateRegistrationForm.signTransaction({
+		await signDelegateRegistration({
 			env,
 			form,
 			profile,
@@ -309,7 +309,7 @@ describe("DelegateRegistrationForm", () => {
 		});
 		const transactionMock = createTransactionMock(wallet);
 
-		await DelegateRegistrationForm.signTransaction({
+		await signDelegateRegistration({
 			env,
 			form,
 			profile,
