@@ -2,7 +2,7 @@ import { Contracts } from "@payvo/profiles";
 import { RecipientListItem } from "domains/transaction/components/RecipientList/RecipientList.models";
 
 export interface AddRecipientProperties {
-	assetSymbol: string;
+	assetSymbol?: string;
 	singleLabel?: string;
 	multipleLabel?: string;
 	recipients?: RecipientListItem[];
