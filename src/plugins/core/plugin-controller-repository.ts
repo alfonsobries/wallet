@@ -4,6 +4,7 @@ import { Checkbox } from "app/components/Checkbox";
 import { Clipboard } from "app/components/Clipboard";
 import { Icon } from "app/components/Icon";
 import { Input, InputCurrency } from "app/components/Input";
+import { Link } from "app/components/Link";
 import { Modal } from "app/components/Modal";
 import { Spinner } from "app/components/Spinner";
 import { Table, TableCell, TableRow } from "app/components/Table";
@@ -112,6 +113,7 @@ export class PluginControllerRepository {
 							Icon,
 							Input,
 							InputCurrency,
+							Link,
 							Modal,
 							Spinner,
 							TabPanel,
