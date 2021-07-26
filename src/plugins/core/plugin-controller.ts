@@ -45,7 +45,13 @@ export class PluginController {
 		}
 
 		// @ts-ignore
-		const { id } = profile.plugins().push({ isEnabled: true, name: this.config().name() });
+		const { id } = profile.plugins().push({
+			isEnabled: true,
+			name: this.config().name(),
+			permissions: this.config().permissions(),
+			urls: this.config().urls(),
+			version: this.config().version(),
+		});
 
 		return id;
 	}

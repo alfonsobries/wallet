@@ -3,10 +3,10 @@ import { Button } from "app/components/Button";
 import { Form } from "app/components/Form";
 import { Modal } from "app/components/Modal";
 import { TabPanel, Tabs } from "app/components/Tabs";
-import { useEnvironmentContext } from "app/contexts";
+import { useEnvironmentContext, useLedgerContext } from "app/contexts";
 import { toasts } from "app/services";
 import { ErrorStep } from "domains/transaction/components/ErrorStep";
-import { SignInput, useWalletSignatory } from "domains/transaction/hooks";
+import { SignInput, useMultiSignatureRegistration, useWalletSignatory } from "domains/transaction/hooks";
 import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ import { SummaryStep } from "./SummaryStep";
 
 interface MultiSignatureDetailProperties {
 	isOpen: boolean;
+	profile: Contracts.IProfile;
 	wallet: Contracts.IReadWriteWallet;
 	transaction: DTO.ExtendedSignedTransactionData;
 	onClose?: () => void;
@@ -66,19 +67,27 @@ const Paginator = (properties: {
 	);
 };
 
-export const MultiSignatureDetail = ({ isOpen, wallet, transaction, onClose }: MultiSignatureDetailProperties) => {
+export const MultiSignatureDetail = ({
+	isOpen,
+	wallet,
+	profile,
+	transaction,
+	onClose,
+}: MultiSignatureDetailProperties) => {
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
 	const { t } = useTranslation();
 	const { persist } = useEnvironmentContext();
-	const form = useForm({ mode: "onChange" });
+	const { hasDeviceAvailable, isConnected, connect, transport } = useLedgerContext();
 
+	const form = useForm({ mode: "onChange" });
 	const { handleSubmit, formState } = form;
 	const { isValid, isSubmitting } = formState;
 
 	const [activeStep, setActiveStep] = useState(1);
 
 	const { sign } = useWalletSignatory(wallet);
+	const { addSignature } = useMultiSignatureRegistration();
 
 	const canBeBroadascated =
 		wallet.transaction().canBeBroadcasted(transaction.id()) &&
@@ -106,10 +115,10 @@ export const MultiSignatureDetail = ({ isOpen, wallet, transaction, onClose }: M
 		}
 	}, [wallet, transaction, persist]);
 
-	const addSignature = useCallback(
+	const sendSignature = useCallback(
 		async ({ encryptionPassword, mnemonic, privateKey, secondMnemonic, secret, wif }: SignInput) => {
 			try {
-				const signature = await sign({
+				const signatory = await sign({
 					encryptionPassword,
 					mnemonic,
 					privateKey,
@@ -118,16 +127,25 @@ export const MultiSignatureDetail = ({ isOpen, wallet, transaction, onClose }: M
 					wif,
 				});
 
-				await wallet.transaction().addSignature(transaction.id(), signature);
+				await addSignature({ signatory, transactionId: transaction.id(), wallet });
 				await wallet.transaction().sync();
-
 				await broadcast();
 			} catch {
 				toasts.error(t("TRANSACTION.MULTISIGNATURE.ERROR.FAILED_TO_SIGN"));
 			}
 		},
-		[transaction, wallet, broadcast, t, sign],
+		[transaction, wallet, broadcast, t, sign, addSignature],
 	);
+
+	const handleSign = async () => {
+		setActiveStep(2);
+
+		if (wallet.isLedger()) {
+			await connect(profile, wallet.coinId(), wallet.networkId());
+			await wallet.ledger().connect(transport);
+			handleSubmit((data: any) => sendSignature(data))();
+		}
+	};
 
 	return (
 		<Modal title={""} isOpen={isOpen} onClose={onClose}>
@@ -138,7 +156,11 @@ export const MultiSignatureDetail = ({ isOpen, wallet, transaction, onClose }: M
 					</TabPanel>
 
 					<TabPanel tabId={2}>
-						<AuthenticationStep wallet={wallet} />
+						<AuthenticationStep
+							wallet={wallet}
+							ledgerIsAwaitingDevice={!hasDeviceAvailable}
+							ledgerIsAwaitingApp={!isConnected}
+						/>
 					</TabPanel>
 
 					<TabPanel tabId={3}>
@@ -171,9 +193,9 @@ export const MultiSignatureDetail = ({ isOpen, wallet, transaction, onClose }: M
 						<Paginator
 							activeStep={activeStep}
 							onCancel={onClose}
-							onSign={() => setActiveStep(2)}
+							onSign={handleSign}
 							onBack={() => setActiveStep(1)}
-							onContinue={handleSubmit((data: any) => addSignature(data))}
+							onContinue={handleSubmit((data: any) => sendSignature(data))}
 							isLoading={isSubmitting}
 							isEnabled={isValid}
 						/>

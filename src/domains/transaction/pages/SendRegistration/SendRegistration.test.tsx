@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/require-await */
 import { BIP39 } from "@payvo/cryptography";
 import { Contracts } from "@payvo/profiles";
+import { LedgerProvider } from "app/contexts";
 import { translations as transactionTranslations } from "domains/transaction/i18n";
 import { createMemoryHistory } from "history";
 import nock from "nock";
 import React from "react";
 import { Route } from "react-router-dom";
 import DelegateRegistrationFixture from "tests/fixtures/coins/ark/devnet/transactions/delegate-registration.json";
+import MultisignatureRegistrationFixture from "tests/fixtures/coins/ark/devnet/transactions/multisignature-registration.json";
 import SecondSignatureRegistrationFixture from "tests/fixtures/coins/ark/devnet/transactions/second-signature-registration.json";
 import {
 	defaultNetMocks,
 	env,
 	fireEvent,
+	getDefaultLedgerTransport,
 	getDefaultProfileId,
 	getDefaultWalletMnemonic,
 	MNEMONICS,
@@ -40,7 +43,9 @@ const renderPage = async (wallet: Contracts.IReadWriteWallet, type = "delegateRe
 
 	const rendered = renderWithRouter(
 		<Route path={path}>
-			<SendRegistration />
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<SendRegistration />
+			</LedgerProvider>
 		</Route>,
 		{
 			history,
@@ -80,6 +85,20 @@ const createSecondSignatureRegistrationMock = (wallet: Contracts.IReadWriteWalle
 		id: () => SecondSignatureRegistrationFixture.data.id,
 		recipient: () => SecondSignatureRegistrationFixture.data.recipient,
 		sender: () => SecondSignatureRegistrationFixture.data.sender,
+		type: () => "secondSignature",
+	});
+
+const createMultiSignatureRegistrationMock = (wallet: Contracts.IReadWriteWallet) =>
+	// @ts-ignore
+	jest.spyOn(wallet.transaction(), "transaction").mockReturnValue({
+		amount: () => 0,
+		data: () => ({ data: () => MultisignatureRegistrationFixture.data }),
+		explorerLink: () => `https://dexplorer.ark.io/transaction/${MultisignatureRegistrationFixture.data.id}`,
+		fee: () => +MultisignatureRegistrationFixture.data.fee / 1e8,
+		id: () => MultisignatureRegistrationFixture.data.id,
+		isMultiSignatureRegistration: () => true,
+		recipient: () => MultisignatureRegistrationFixture.data.recipient,
+		sender: () => MultisignatureRegistrationFixture.data.sender,
 		type: () => "secondSignature",
 	});
 
@@ -134,7 +153,9 @@ describe("Registration", () => {
 
 		const renderedPage = renderWithRouter(
 			<Route path={path}>
-				<SendRegistration />
+				<LedgerProvider transport={getDefaultLedgerTransport()}>
+					<SendRegistration />
+				</LedgerProvider>
 			</Route>,
 			{
 				history,
@@ -293,6 +314,133 @@ describe("Registration", () => {
 		transactionMock.mockRestore();
 
 		bip39GenerateMock.mockRestore();
+	});
+
+	it("should send multisignature registration", async () => {
+		const { getByTestId, getAllByTestId } = await renderPage(wallet, "multiSignature");
+
+		const signTransactionMock = jest
+			.spyOn(wallet.transaction(), "signMultiSignature")
+			.mockReturnValue(Promise.resolve(MultisignatureRegistrationFixture.data.id));
+
+		const addSignatureMock = jest.spyOn(wallet.transaction(), "addSignature").mockResolvedValue({
+			accepted: [MultisignatureRegistrationFixture.data.id],
+			errors: {},
+			rejected: [],
+		});
+
+		const multiSignatureRegistrationMock = createMultiSignatureRegistrationMock(wallet);
+
+		const wallet2 = profile.wallets().last();
+
+		await waitFor(() => expect(getByTestId("Registration__form")).toBeTruthy());
+		await waitFor(() => expect(getByTestId("header__title")).toHaveTextContent("Multisignature Registration"));
+
+		const fees = within(getByTestId("InputFee")).getAllByTestId("ButtonGroupOption");
+		fireEvent.click(fees[1]);
+
+		fireEvent.click(
+			within(getByTestId("InputFee")).getByText(transactionTranslations.INPUT_FEE_VIEW_TYPE.ADVANCED),
+		);
+
+		await waitFor(() => expect(getByTestId("InputCurrency")).not.toHaveValue("0"));
+
+		fireEvent.input(screen.getByTestId("SelectDropdown__input"), {
+			target: {
+				value: wallet2.address(),
+			},
+		});
+
+		fireEvent.click(screen.getByText(transactionTranslations.MULTISIGNATURE.ADD_PARTICIPANT));
+
+		await waitFor(() => expect(getAllByTestId("recipient-list__recipient-list-item")).toHaveLength(2));
+		await waitFor(() => expect(getByTestId("StepNavigation__continue-button")).not.toHaveAttribute("disabled"));
+
+		// Step 2
+		await waitFor(() => expect(getByTestId("StepNavigation__continue-button")).not.toBeDisabled());
+		fireEvent.click(getByTestId("StepNavigation__continue-button"));
+
+		// Review step
+		fireEvent.click(getByTestId("StepNavigation__continue-button"));
+
+		// Authentication step
+		await waitFor(() => expect(getByTestId("AuthenticationStep")).toBeTruthy());
+		const mnemonic = getByTestId("AuthenticationStep__mnemonic");
+		fireEvent.input(mnemonic, { target: { value: passphrase } });
+		await waitFor(() => expect(screen.getByTestId("AuthenticationStep__mnemonic")).toHaveValue(passphrase));
+
+		fireEvent.click(getByTestId("StepNavigation__send-button"));
+
+		await waitFor(() => expect(getByTestId("TransactionSuccessful")).toBeTruthy());
+
+		signTransactionMock.mockRestore();
+		multiSignatureRegistrationMock.mockRestore();
+		addSignatureMock.mockRestore();
+	});
+
+	it("should send multisignature registration with ledger wallet", async () => {
+		const { getByTestId, getAllByTestId } = await renderPage(wallet, "multiSignature");
+
+		// Ledger mocks
+		const isLedgerMock = jest.spyOn(wallet, "isLedger").mockImplementation(() => true);
+		jest.spyOn(wallet.coin(), "__construct").mockImplementation();
+
+		const getPublicKeyMock = jest
+			.spyOn(wallet.coin().ledger(), "getPublicKey")
+			.mockResolvedValue("0335a27397927bfa1704116814474d39c2b933aabb990e7226389f022886e48deb");
+
+		const signTransactionMock = jest
+			.spyOn(wallet.transaction(), "signMultiSignature")
+			.mockReturnValue(Promise.resolve(MultisignatureRegistrationFixture.data.id));
+
+		const addSignatureMock = jest.spyOn(wallet.transaction(), "addSignature").mockResolvedValue({
+			accepted: [MultisignatureRegistrationFixture.data.id],
+			errors: {},
+			rejected: [],
+		});
+
+		const multiSignatureRegistrationMock = createMultiSignatureRegistrationMock(wallet);
+
+		const wallet2 = profile.wallets().last();
+
+		await waitFor(() => expect(getByTestId("Registration__form")).toBeTruthy());
+		await waitFor(() => expect(getByTestId("header__title")).toHaveTextContent("Multisignature Registration"));
+
+		const fees = within(getByTestId("InputFee")).getAllByTestId("ButtonGroupOption");
+		fireEvent.click(fees[1]);
+
+		fireEvent.click(
+			within(getByTestId("InputFee")).getByText(transactionTranslations.INPUT_FEE_VIEW_TYPE.ADVANCED),
+		);
+
+		await waitFor(() => expect(getByTestId("InputCurrency")).not.toHaveValue("0"));
+
+		fireEvent.input(screen.getByTestId("SelectDropdown__input"), {
+			target: {
+				value: wallet2.address(),
+			},
+		});
+
+		fireEvent.click(screen.getByText(transactionTranslations.MULTISIGNATURE.ADD_PARTICIPANT));
+
+		await waitFor(() => expect(getAllByTestId("recipient-list__recipient-list-item")).toHaveLength(2));
+		await waitFor(() => expect(getByTestId("StepNavigation__continue-button")).not.toHaveAttribute("disabled"));
+
+		// Step 2
+		fireEvent.click(getByTestId("StepNavigation__continue-button"));
+
+		// Skip Authentication Step
+		fireEvent.click(getByTestId("StepNavigation__continue-button"));
+
+		await waitFor(() => expect(getByTestId("header__title")).toHaveTextContent("Ledger Wallet"));
+		await waitFor(() => expect(getByTestId("TransactionSuccessful")).toBeTruthy());
+		// await waitFor(() => expect(getByTestId("ErrorStep")).toBeTruthy());
+
+		isLedgerMock.mockRestore();
+		getPublicKeyMock.mockRestore();
+		signTransactionMock.mockRestore();
+		multiSignatureRegistrationMock.mockRestore();
+		addSignatureMock.mockRestore();
 	});
 
 	it("should set fee", async () => {

@@ -3,6 +3,7 @@ import { Contracts, Repositories } from "@payvo/profiles";
 import du from "du";
 import parseAuthor from "parse-author";
 import semver from "semver";
+import { assertString } from "utils/assertions";
 
 import appPackage from "../../../../package.json";
 import { allPermissions } from "./permissions";
@@ -132,7 +133,7 @@ export class PluginConfigurationData {
 	}
 
 	urls() {
-		return this.manifest().get<string[]>("urls", []);
+		return this.manifest().get<string[]>("urls") || [];
 	}
 
 	minimumVersion(): string | undefined {
@@ -140,8 +141,15 @@ export class PluginConfigurationData {
 	}
 
 	version() {
-		const version = this.get("version");
-		return semver.valid(version) ? semver.coerce(version)?.version : "0.0.0";
+		let version = this.get("version");
+
+		if (semver.valid(version)) {
+			version = semver.coerce(version)?.version;
+			assertString(version);
+			return version;
+		}
+
+		return "0.0.0";
 	}
 
 	logo() {

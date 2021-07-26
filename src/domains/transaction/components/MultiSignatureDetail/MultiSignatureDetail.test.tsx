@@ -1,10 +1,13 @@
 import { Contracts, DTO } from "@payvo/profiles";
+import { LedgerProvider } from "app/contexts";
 import { toasts } from "app/services";
 import React from "react";
+import MultisignatureRegistrationFixture from "tests/fixtures/coins/ark/devnet/transactions/multisignature-registration.json";
 import {
 	act,
 	env,
 	fireEvent,
+	getDefaultLedgerTransport,
 	getDefaultProfileId,
 	getDefaultWalletMnemonic,
 	render,
@@ -181,7 +184,11 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => false);
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByText(translations.TRANSACTION_TYPES.TRANSFER)));
 
@@ -196,7 +203,11 @@ describe("MultiSignatureDetail", () => {
 
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByText(translations.TRANSACTION_TYPES.TRANSFER)));
 
@@ -209,7 +220,9 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 
 		const { container } = render(
-			<MultiSignatureDetail transaction={fixtures.multiPayment} wallet={wallet} isOpen />,
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.multiPayment} wallet={wallet} isOpen />
+			</LedgerProvider>,
 		);
 
 		await waitFor(() => expect(screen.getByText(translations.TRANSACTION_TYPES.MULTI_PAYMENT)));
@@ -223,7 +236,9 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 
 		const { container } = render(
-			<MultiSignatureDetail transaction={fixtures.multiSignature} wallet={wallet} isOpen />,
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.multiSignature} wallet={wallet} isOpen />
+			</LedgerProvider>,
 		);
 
 		await waitFor(() => expect(screen.getByText(translations.TRANSACTION_TYPES.MULTI_SIGNATURE)));
@@ -237,7 +252,11 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 		jest.spyOn(fixtures.vote, "type").mockReturnValue("vote");
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.vote} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.vote} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() =>
 			expect(screen.getByTestId("header__title")).toHaveTextContent(translations.TRANSACTION_TYPES.VOTE),
@@ -252,7 +271,11 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 		jest.spyOn(fixtures.unvote, "type").mockReturnValue("unvote");
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.unvote} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.unvote} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() =>
 			expect(screen.getByTestId("header__title")).toHaveTextContent(translations.TRANSACTION_TYPES.UNVOTE),
@@ -266,8 +289,11 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => false);
 		jest.spyOn(wallet.transaction(), "isAwaitingSignatureByPublicKey").mockImplementation(() => false);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.ipfs} wallet={wallet} isOpen />);
-
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.ipfs} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 		await waitFor(() =>
 			expect(screen.getByTestId("header__title")).toHaveTextContent(translations.TRANSACTION_TYPES.IPFS),
 		);
@@ -281,7 +307,11 @@ describe("MultiSignatureDetail", () => {
 		// @ts-ignore
 		const broadcastMock = jest.spyOn(wallet.transaction(), "broadcast").mockResolvedValue(void 0);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("MultiSignatureDetail__broadcast")));
 
@@ -302,7 +332,11 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "canBeBroadcasted").mockImplementation(() => true);
 		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => false);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.queryByTestId("MultiSignatureDetail__broadcast")).not.toBeInTheDocument());
 
@@ -315,7 +349,11 @@ describe("MultiSignatureDetail", () => {
 
 		const broadcastMock = jest.spyOn(wallet.transaction(), "broadcast").mockRejectedValue(new Error("Failed"));
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("MultiSignatureDetail__broadcast")));
 
@@ -334,7 +372,11 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "canBeBroadcasted").mockImplementation(() => true);
 		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => true);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("Paginator__sign")));
 
@@ -358,7 +400,17 @@ describe("MultiSignatureDetail", () => {
 		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => true);
 
 		const onClose = jest.fn();
-		render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen onClose={onClose} />);
+		render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail
+					profile={profile}
+					transaction={fixtures.transfer}
+					wallet={wallet}
+					isOpen
+					onClose={onClose}
+				/>
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("Paginator__cancel")));
 
@@ -372,7 +424,11 @@ describe("MultiSignatureDetail", () => {
 	it("should go to authentication step with sign button", async () => {
 		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => true);
 
-		render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("Paginator__sign")));
 
@@ -392,7 +448,11 @@ describe("MultiSignatureDetail", () => {
 		const broadcastMock = jest.spyOn(wallet.transaction(), "broadcast");
 		const addSignatureMock = jest.spyOn(wallet.transaction(), "addSignature").mockResolvedValue(void 0);
 
-		const { container } = render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("Paginator__sign")));
 
@@ -435,7 +495,11 @@ describe("MultiSignatureDetail", () => {
 		const broadcastMock = jest.spyOn(wallet.transaction(), "broadcast");
 		const toastsMock = jest.spyOn(toasts, "error");
 
-		render(<MultiSignatureDetail transaction={fixtures.transfer} wallet={wallet} isOpen />);
+		render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.transfer} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
 
 		await waitFor(() => expect(screen.getByTestId("Paginator__sign")));
 
@@ -462,5 +526,55 @@ describe("MultiSignatureDetail", () => {
 		await waitFor(() => expect(addSignatureMock).toHaveBeenCalled());
 		await waitFor(() => expect(toastsMock).toHaveBeenCalled());
 		await waitFor(() => expect(broadcastMock).not.toHaveBeenCalled());
+	});
+
+	it("should sign transaction with a ledger wallet", async () => {
+		jest.spyOn(wallet, "actsWithMnemonic").mockImplementation(() => true);
+		jest.spyOn(wallet.transaction(), "canBeBroadcasted").mockImplementation(() => false);
+		jest.spyOn(wallet.transaction(), "canBeSigned").mockImplementation(() => true);
+		jest.spyOn(wallet.transaction(), "sync").mockResolvedValue(void 0);
+
+		// Ledger mocks
+		const isLedgerMock = jest.spyOn(wallet, "isLedger").mockImplementation(() => true);
+		jest.spyOn(wallet.coin(), "__construct").mockImplementation();
+
+		const getPublicKeyMock = jest
+			.spyOn(wallet.coin().ledger(), "getPublicKey")
+			.mockResolvedValue("0335a27397927bfa1704116814474d39c2b933aabb990e7226389f022886e48deb");
+
+		const broadcastMock = jest.spyOn(wallet.transaction(), "broadcast").mockResolvedValue({
+			accepted: [MultisignatureRegistrationFixture.data.id],
+			errors: {},
+			rejected: [],
+		});
+
+		const addSignatureMock = jest.spyOn(wallet.transaction(), "addSignature").mockResolvedValue(undefined);
+
+		const addSignatureSpy = jest.spyOn(wallet.transaction(), "addSignature").mockResolvedValue(undefined);
+
+		const { container } = render(
+			<LedgerProvider transport={getDefaultLedgerTransport()}>
+				<MultiSignatureDetail profile={profile} transaction={fixtures.multiSignature} wallet={wallet} isOpen />
+			</LedgerProvider>,
+		);
+
+		await waitFor(() => expect(screen.getByTestId("Paginator__sign")));
+
+		act(() => {
+			fireEvent.click(screen.getByTestId("Paginator__sign"));
+		});
+
+		await waitFor(() => expect(screen.getByTestId("Paginator__continue")).not.toBeDisabled(), { timeout: 1000 });
+
+		await waitFor(() => expect(addSignatureMock).toHaveBeenCalled());
+		await waitFor(() => expect(broadcastMock).not.toHaveBeenCalled());
+		await waitFor(() => expect(screen.getByText(translations.SUCCESS.TITLE)).toBeInTheDocument());
+
+		expect(container).toMatchSnapshot();
+
+		isLedgerMock.mockRestore();
+		getPublicKeyMock.mockRestore();
+		broadcastMock.mockRestore();
+		addSignatureSpy.mockRestore();
 	});
 });

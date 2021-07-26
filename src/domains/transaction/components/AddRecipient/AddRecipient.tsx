@@ -172,7 +172,7 @@ export const AddRecipient = ({
 		if (getValues("displayAmount")) {
 			trigger("amount");
 		}
-	}, [fee, getValues, trigger]);
+	}, [fee, senderAddress, getValues, trigger]);
 
 	useEffect(() => {
 		//region added Timeout to prevent show error for recipientAddress when switch between transfer type
