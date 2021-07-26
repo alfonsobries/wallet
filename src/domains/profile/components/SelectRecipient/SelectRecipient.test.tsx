@@ -127,7 +127,7 @@ describe("SelectRecipient", () => {
 		});
 
 		expect(getByTestId("SelectDropdown__input")).toHaveValue(address);
-		expect(function_).toBeCalledWith(address);
+		expect(function_).toBeCalledWith(address, "");
 
 		contactsSpy.mockRestore();
 	});
@@ -143,6 +143,8 @@ describe("SelectRecipient", () => {
 			/>,
 		);
 
+		expect(function_).toBeCalledWith("bP6T9GQ3kqP6T9GQ3kqP6T9GQ3kqTTTP6T9GQ3kqT", "");
+
 		expect(() => getByTestId("modal__inner")).toThrow(/Unable to find an element by/);
 
 		act(() => {
@@ -164,7 +166,7 @@ describe("SelectRecipient", () => {
 		const selectedAddressValue = profile.contacts().values()[0].addresses().values()[0].address();
 
 		expect(getByTestId("SelectDropdown__input")).toHaveValue(selectedAddressValue);
-		expect(function_).toBeCalledWith(selectedAddressValue);
+		expect(function_).toHaveBeenLastCalledWith(selectedAddressValue, "Brian");
 	});
 
 	it("should call onChange prop only when values change", async () => {
@@ -174,6 +176,8 @@ describe("SelectRecipient", () => {
 			<SelectRecipient profile={profile} onChange={function_} address="D61mfSggzbvQgTUe6JhYKH2doHaqJ3Dyib" />,
 		);
 
+		expect(function_).toBeCalledTimes(1);
+
 		expect(() => getByTestId("modal__inner")).toThrow(/Unable to find an element by/);
 
 		act(() => {
@@ -195,7 +199,7 @@ describe("SelectRecipient", () => {
 		const selectedAddressValue = profile.contacts().values()[0].addresses().values()[0].address();
 
 		expect(getByTestId("SelectDropdown__input")).toHaveValue(selectedAddressValue);
-		expect(function_).not.toBeCalled();
+		expect(function_).toBeCalledTimes(1);
 	});
 
 	it("should filter recipients list by network if provided", async () => {

@@ -262,6 +262,7 @@ describe("SendTransfer", () => {
 					recipients: [
 						{
 							address: wallet.address(),
+							alias: wallet.alias(),
 							amount: BigNumber.make(1),
 						},
 					],
@@ -270,7 +271,7 @@ describe("SendTransfer", () => {
 			}),
 		);
 
-		const { asFragment, container, getByTestId } = render(
+		const { asFragment, container, getByTestId, getAllByTestId } = render(
 			<FormProvider {...form.current}>
 				<ReviewStep wallet={wallet} />
 			</FormProvider>,
@@ -278,6 +279,7 @@ describe("SendTransfer", () => {
 
 		expect(getByTestId("SendTransfer__review-step")).toBeTruthy();
 		expect(container).toHaveTextContent(wallet.network().name());
+		expect(getAllByTestId("Address__alias")).toHaveLength(2);
 		expect(container).toHaveTextContent("D8rr7B1d6TL6pf14LgMz4sKp1VBMs6YUYD");
 		expect(container).toHaveTextContent("test memo");
 

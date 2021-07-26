@@ -22,7 +22,7 @@ type SelectRecipientProperties = {
 	contactSearchTitle?: string;
 	contactSearchDescription?: string;
 	placeholder?: string;
-	onChange?: (address: string) => void;
+	onChange?: (address: string, alias: string) => void;
 } & Omit<React.InputHTMLAttributes<any>, "onChange">;
 
 const ProfileAvatar = ({ address }: any) => {
@@ -83,6 +83,7 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 
 		const isInvalidValue = isInvalid || fieldContext?.isInvalid;
 
+		// Modify the address from parent component
 		useEffect(() => {
 			if (address === selectedAddress) {
 				return;
@@ -90,6 +91,13 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 
 			setSelectedAddress(address);
 		}, [address, setSelectedAddress]); // eslint-disable-line react-hooks/exhaustive-deps
+
+		// Emit onChange after address changed to make sure the alias updated
+		useEffect(() => {
+			if (selectedAddress) {
+				onChange?.(selectedAddress, selectedWalletAlias ?? "");
+			}
+		}, [selectedAddress, selectedWalletAlias]); // eslint-disable-line react-hooks/exhaustive-deps
 
 		const { allAddresses } = useProfileAddresses({ network, profile });
 		const recipientAddresses = allAddresses.map(({ address }) => ({
@@ -104,7 +112,6 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 
 			setSelectedAddress(changedAddress);
 			setIsRecipientSearchOpen(false);
-			onChange?.(changedAddress);
 		};
 
 		const openRecipients = () => {
@@ -121,7 +128,6 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 			}
 
 			setSelectedAddress(changedAddress);
-			onChange?.(changedAddress);
 		};
 
 		return (
