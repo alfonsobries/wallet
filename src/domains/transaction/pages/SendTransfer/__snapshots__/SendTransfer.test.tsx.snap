@@ -3609,12 +3609,12 @@ exports[`SendTransfer should render form and use location state without memo 1`]
                                         <div
                                           aria-expanded="false"
                                           aria-haspopup="listbox"
-                                          aria-owns="downshift-48-menu"
+                                          aria-owns="downshift-45-menu"
                                           role="combobox"
                                         >
                                           <label
-                                            for="downshift-48-input"
-                                            id="downshift-48-label"
+                                            for="downshift-45-input"
+                                            id="downshift-45-label"
                                           />
                                           <div
                                             class="fixed invisible w-auto whitespace-nowrap"
@@ -3636,13 +3636,13 @@ exports[`SendTransfer should render form and use location state without memo 1`]
                                             >
                                               <input
                                                 aria-autocomplete="list"
-                                                aria-controls="downshift-48-menu"
+                                                aria-controls="downshift-45-menu"
                                                 aria-invalid="false"
-                                                aria-labelledby="downshift-48-label"
+                                                aria-labelledby="downshift-45-label"
                                                 autocomplete="off"
                                                 class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full cursor-default"
                                                 data-testid="SelectDropdown__input"
-                                                id="downshift-48-input"
+                                                id="downshift-45-input"
                                                 name="recipientAddress"
                                                 placeholder="Address"
                                                 value=""
@@ -3672,9 +3672,9 @@ exports[`SendTransfer should render form and use location state without memo 1`]
                                             </div>
                                           </div>
                                           <ul
-                                            aria-labelledby="downshift-48-label"
+                                            aria-labelledby="downshift-45-label"
                                             class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr"
-                                            id="downshift-48-menu"
+                                            id="downshift-45-menu"
                                             role="listbox"
                                           />
                                         </div>
@@ -8556,12 +8556,12 @@ exports[`SendTransfer should select a cryptoasset and select sender without wall
                                         <div
                                           aria-expanded="false"
                                           aria-haspopup="listbox"
-                                          aria-owns="downshift-118-menu"
+                                          aria-owns="downshift-115-menu"
                                           role="combobox"
                                         >
                                           <label
-                                            for="downshift-118-input"
-                                            id="downshift-118-label"
+                                            for="downshift-115-input"
+                                            id="downshift-115-label"
                                           />
                                           <div
                                             class="fixed invisible w-auto whitespace-nowrap"
@@ -8584,13 +8584,13 @@ exports[`SendTransfer should select a cryptoasset and select sender without wall
                                             >
                                               <input
                                                 aria-autocomplete="list"
-                                                aria-controls="downshift-118-menu"
+                                                aria-controls="downshift-115-menu"
                                                 aria-invalid="false"
-                                                aria-labelledby="downshift-118-label"
+                                                aria-labelledby="downshift-115-label"
                                                 autocomplete="off"
                                                 class="Input__InputStyled-sc-1i8sd1r-1 exXuoZ p-0 border-none bg-transparent focus:ring-0 no-ligatures w-full cursor-default"
                                                 data-testid="SelectDropdown__input"
-                                                id="downshift-118-input"
+                                                id="downshift-115-input"
                                                 name="recipientAddress"
                                                 placeholder="Address"
                                                 value=""
@@ -8620,9 +8620,9 @@ exports[`SendTransfer should select a cryptoasset and select sender without wall
                                             </div>
                                           </div>
                                           <ul
-                                            aria-labelledby="downshift-118-label"
+                                            aria-labelledby="downshift-115-label"
                                             class="styles__SelectOptionsList-sc-120rtxy-0 eqsPyr"
-                                            id="downshift-118-menu"
+                                            id="downshift-115-menu"
                                             role="listbox"
                                           />
                                         </div>
