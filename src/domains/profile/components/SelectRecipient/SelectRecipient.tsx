@@ -175,9 +175,8 @@ export const SelectRecipient = React.forwardRef<HTMLInputElement, SelectRecipien
 				</div>
 
 				<SearchRecipient
-					network={network}
 					isOpen={isRecipientSearchOpen}
-					profile={profile}
+					recipients={allAddresses}
 					onAction={(address: string) => handleSelectAddress(address)}
 					onClose={() => setIsRecipientSearchOpen(false)}
 				/>

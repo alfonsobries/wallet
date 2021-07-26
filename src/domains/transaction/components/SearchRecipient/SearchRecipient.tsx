@@ -1,5 +1,3 @@
-import { Contracts } from "@payvo/profiles";
-import { Networks } from "@payvo/sdk";
 import { Address } from "app/components/Address";
 import { Avatar } from "app/components/Avatar";
 import { Button } from "app/components/Button";
@@ -7,22 +5,10 @@ import { HeaderSearchBar } from "app/components/Header/HeaderSearchBar";
 import { Modal } from "app/components/Modal";
 import { Table, TableCell, TableRow } from "app/components/Table";
 import { TableColumn } from "app/components/Table/TableColumn.models";
-import React, { useMemo } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
-interface Recipient {
-	id: string;
-	address: string;
-	alias?: string;
-	network?: string;
-	avatar: string;
-	type: string;
-}
-
-interface RecipientListItemProperties {
-	recipient: Recipient;
-	onAction: (address: string) => void;
-}
+import { RecipientListItemProperties, RecipientProperties, SearchRecipientProperties } from "./SearchRecipient.models";
 
 const RecipientListItem = ({ recipient, onAction }: RecipientListItemProperties) => {
 	const { t } = useTranslation();
@@ -53,34 +39,20 @@ const RecipientListItem = ({ recipient, onAction }: RecipientListItemProperties)
 	);
 };
 
-interface SearchRecipientProperties {
-	title?: string;
-	description?: string;
-	network?: Networks.Network;
-	isOpen: boolean;
-	profile: Contracts.IProfile;
-	onClose?: () => void;
-	onAction: (address: string) => void;
-}
-
 export const SearchRecipient = ({
 	title,
 	description,
-	profile,
+	recipients,
 	isOpen,
-	network,
 	onClose,
 	onAction,
 }: SearchRecipientProperties) => {
 	const { t } = useTranslation();
 
-	const contacts = profile.contacts().values();
-	const profileWallets = profile.wallets().values();
-
 	const columns: TableColumn[] = [
 		{
 			Header: t("COMMON.WALLET_ADDRESS"),
-			accessor: (recipient: Recipient) => recipient.alias,
+			accessor: (recipient: RecipientProperties) => recipient.alias,
 		},
 		{
 			Header: t("COMMON.TYPE"),
@@ -100,52 +72,6 @@ export const SearchRecipient = ({
 		},
 	];
 
-	const recipients = useMemo(() => {
-		const recipientsList: Recipient[] = [];
-
-		const isNetworkSelected = (addressNetwork: string) => {
-			if (!network?.id()) {
-				return true;
-			}
-
-			return addressNetwork === network?.id();
-		};
-
-		for (const wallet of profileWallets) {
-			if (!isNetworkSelected(wallet.network().id())) {
-				continue;
-			}
-
-			recipientsList.push({
-				address: wallet.address(),
-				alias: wallet.alias(),
-				avatar: wallet.avatar(),
-				id: wallet.id(),
-				network: wallet.network().id(),
-				type: "wallet",
-			});
-		}
-
-		for (const contact of contacts) {
-			for (const contactAddress of contact.addresses().values()) {
-				if (!isNetworkSelected(contactAddress.network())) {
-					continue;
-				}
-
-				recipientsList.push({
-					address: contactAddress.address(),
-					alias: contact.name(),
-					avatar: contactAddress.avatar(),
-					id: contactAddress.id(),
-					network: contactAddress.network(),
-					type: "contact",
-				});
-			}
-		}
-
-		return recipientsList;
-	}, [profileWallets, contacts, network]);
-
 	return (
 		<Modal
 			isOpen={isOpen}
@@ -156,7 +82,7 @@ export const SearchRecipient = ({
 		>
 			<div className="mt-8">
 				<Table columns={columns} data={recipients}>
-					{(recipient: Recipient) => <RecipientListItem recipient={recipient} onAction={onAction} />}
+					{(recipient: RecipientProperties) => <RecipientListItem recipient={recipient} onAction={onAction} />}
 				</Table>
 			</div>
 		</Modal>
