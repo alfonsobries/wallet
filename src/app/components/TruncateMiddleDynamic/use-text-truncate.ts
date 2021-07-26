@@ -39,7 +39,7 @@ export const useTextTruncate = (referenceElement: any, value: string, offset = 0
 			element.innerHTML = temporary;
 
 			mid--;
-		} while (hasOverflow(element, referenceElement));
+		} while (mid && hasOverflow(element, referenceElement));
 
 		element.remove();
 
