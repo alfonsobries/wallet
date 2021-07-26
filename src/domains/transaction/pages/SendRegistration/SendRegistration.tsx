@@ -8,6 +8,10 @@ import { TabPanel, Tabs } from "app/components/Tabs";
 import { useEnvironmentContext, useLedgerContext } from "app/contexts";
 import { useActiveProfile, useActiveWallet, useFees, usePrevious } from "app/hooks";
 import { AuthenticationStep } from "domains/transaction/components/AuthenticationStep";
+import {
+	DelegateRegistrationForm,
+	signDelegateRegistration,
+} from "domains/transaction/components/DelegateRegistrationForm";
 import { ErrorStep } from "domains/transaction/components/ErrorStep";
 import { FeeWarning } from "domains/transaction/components/FeeWarning";
 import { MultiSignatureRegistrationForm } from "domains/transaction/components/MultiSignatureRegistrationForm";
@@ -15,11 +19,6 @@ import {
 	SecondSignatureRegistrationForm,
 	signSecondSignatureRegistration,
 } from "domains/transaction/components/SecondSignatureRegistrationForm";
-import {
-	DelegateRegistrationForm,
-	signDelegateRegistration,
-} from "domains/transaction/components/DelegateRegistrationForm";
-
 import { useFeeConfirmation, useMultiSignatureRegistration, useWalletSignatory } from "domains/transaction/hooks";
 import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
