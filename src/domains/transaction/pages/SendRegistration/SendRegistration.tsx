@@ -173,7 +173,7 @@ export const SendRegistration = () => {
 					signatory,
 				});
 
-				setTransaction(transaction!);
+				setTransaction(transaction);
 				handleNext();
 			}
 
@@ -185,7 +185,7 @@ export const SendRegistration = () => {
 					signatory,
 				});
 
-				setTransaction(transaction!);
+				setTransaction(transaction);
 				handleNext();
 			}
 		} catch (error) {
