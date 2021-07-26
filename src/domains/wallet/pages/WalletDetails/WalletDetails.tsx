@@ -122,6 +122,7 @@ export const WalletDetails = () => {
 
 			{signedTransactionModalItem && (
 				<MultiSignatureDetail
+					profile={activeProfile}
 					wallet={activeWallet}
 					isOpen={!!signedTransactionModalItem}
 					transaction={signedTransactionModalItem}

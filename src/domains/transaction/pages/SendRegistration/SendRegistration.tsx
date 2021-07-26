@@ -5,7 +5,7 @@ import { Page, Section } from "app/components/Layout";
 import { StepIndicator } from "app/components/StepIndicator";
 import { StepNavigation } from "app/components/StepNavigation";
 import { TabPanel, Tabs } from "app/components/Tabs";
-import { useEnvironmentContext } from "app/contexts";
+import { useEnvironmentContext, useLedgerContext } from "app/contexts";
 import { useActiveProfile, useActiveWallet, useFees, usePrevious } from "app/hooks";
 import { AuthenticationStep } from "domains/transaction/components/AuthenticationStep";
 import { DelegateRegistrationForm } from "domains/transaction/components/DelegateRegistrationForm";
@@ -13,7 +13,7 @@ import { ErrorStep } from "domains/transaction/components/ErrorStep";
 import { FeeWarning } from "domains/transaction/components/FeeWarning";
 import { MultiSignatureRegistrationForm } from "domains/transaction/components/MultiSignatureRegistrationForm";
 import { SecondSignatureRegistrationForm } from "domains/transaction/components/SecondSignatureRegistrationForm";
-import { useFeeConfirmation, useWalletSignatory } from "domains/transaction/hooks";
+import { useFeeConfirmation, useMultiSignatureRegistration, useWalletSignatory } from "domains/transaction/hooks";
 import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
@@ -35,8 +35,10 @@ export const SendRegistration = () => {
 	const activeProfile = useActiveProfile();
 	const activeWallet = useActiveWallet();
 	const { sign } = useWalletSignatory(activeWallet);
+	const { sendMultiSignature, abortReference } = useMultiSignatureRegistration();
 
 	const { findByType } = useFees(activeProfile);
+	const { hasDeviceAvailable, isConnected, connect, transport } = useLedgerContext();
 
 	const form = useForm({ mode: "onChange" });
 
@@ -114,7 +116,22 @@ export const SendRegistration = () => {
 
 	const handleSubmit = async () => {
 		try {
-			const { mnemonic, secondMnemonic, encryptionPassword, wif, privateKey, secret } = getValues();
+			const {
+				mnemonic,
+				secondMnemonic,
+				encryptionPassword,
+				wif,
+				privateKey,
+				secret,
+				participants,
+				minParticipants,
+				fee,
+			} = getValues();
+
+			if (activeWallet.isLedger()) {
+				await connect(activeProfile, activeWallet.coinId(), activeWallet.networkId());
+				await activeWallet.ledger().connect(transport);
+			}
 
 			const signatory = await sign({
 				encryptionPassword,
@@ -125,6 +142,21 @@ export const SendRegistration = () => {
 				secret,
 				wif,
 			});
+
+			if (registrationType === "multiSignature") {
+				const transaction = await sendMultiSignature({
+					fee,
+					minParticipants,
+					participants,
+					signatory,
+					wallet: activeWallet,
+				});
+
+				await env.persist();
+				setTransaction(transaction);
+				setActiveTab(stepCount);
+				return;
+			}
 
 			const transaction = await registrationForm!.signTransaction({
 				env,
@@ -142,6 +174,9 @@ export const SendRegistration = () => {
 	};
 
 	const handleBack = () => {
+		// Abort any existing listener
+		abortReference.current.abort();
+
 		if (activeTab === 1) {
 			return history.push(`/profiles/${activeProfile.id()}/wallets/${activeWallet.id()}`);
 		}
@@ -150,10 +185,18 @@ export const SendRegistration = () => {
 	};
 
 	const handleNext = (suppressWarning?: boolean) => {
+		abortReference.current = new AbortController();
+
 		const newIndex = activeTab + 1;
+		const isAuthenticationStep = newIndex === stepCount - 1;
 
 		if (newIndex === stepCount - 1 && requireFeeConfirmation && !suppressWarning) {
 			return setShowFeeWarning(true);
+		}
+
+		// Skip authentication step
+		if (isAuthenticationStep && activeWallet.isLedger()) {
+			handleSubmit();
 		}
 
 		setActiveTab(newIndex);
@@ -195,7 +238,11 @@ export const SendRegistration = () => {
 									/>
 
 									<TabPanel tabId={stepCount - 1}>
-										<AuthenticationStep wallet={activeWallet} />
+										<AuthenticationStep
+											wallet={activeWallet}
+											ledgerIsAwaitingDevice={!hasDeviceAvailable}
+											ledgerIsAwaitingApp={!isConnected}
+										/>
 									</TabPanel>
 
 									<TabPanel tabId={stepCount}>

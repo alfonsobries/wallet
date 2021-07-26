@@ -2,6 +2,7 @@ import { upperFirst } from "@arkecosystem/utils";
 import { Contracts as ProfileContracts, DTO } from "@payvo/profiles";
 import { Services } from "@payvo/sdk";
 import { useLedgerContext } from "app/contexts";
+import { withAbortPromise } from "domains/transaction/utils";
 
 type SignFunction = (input: any) => Promise<string>;
 
@@ -20,18 +21,6 @@ const prepareLedger = async (input: Services.TransactionInputs, wallet: ProfileC
 	...input,
 	signatory: await wallet.signatory().ledger(wallet.data().get<string>(ProfileContracts.WalletData.DerivationPath)!),
 });
-
-const withAbortPromise = (signal?: AbortSignal, callback?: () => void) => <T>(promise: Promise<T>) =>
-	new Promise<T>((resolve, reject) => {
-		if (signal) {
-			signal.addEventListener("abort", () => {
-				callback?.();
-				reject("ERR_ABORT");
-			});
-		}
-
-		return promise.then(resolve).catch(reject);
-	});
 
 export const useTransactionBuilder = () => {
 	const { abortConnectionRetry } = useLedgerContext();

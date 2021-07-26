@@ -11,3 +11,15 @@ export const handleBroadcastError = ({ rejected, errors }: Services.BroadcastRes
 
 	throw new Error(Object.values(errors as object)[0]);
 };
+
+export const withAbortPromise = (signal?: AbortSignal, callback?: () => void) => <T>(promise: Promise<T>) =>
+	new Promise<T>((resolve, reject) => {
+		if (signal) {
+			signal.addEventListener("abort", () => {
+				callback?.();
+				reject("ERR_ABORT");
+			});
+		}
+
+		return promise.then(resolve).catch(reject);
+	});

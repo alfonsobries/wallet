@@ -103,6 +103,8 @@ export const AddRecipient = ({
 	const { network, senderAddress, fee, recipientAddress, amount } = watch();
 	const { sendTransfer } = useValidation();
 
+	const [recipientAlias, setRecipientAlias] = useState<string>("");
+
 	const ticker = network?.ticker();
 	const exchangeTicker = profile.settings().get<string>(Contracts.ProfileSetting.ExchangeCurrency) as string;
 	const { convert } = useExchangeRate({ exchangeTicker, ticker });
@@ -130,7 +132,7 @@ export const AddRecipient = ({
 	const clearFields = useCallback(() => {
 		setValue("amount", undefined);
 		setValue("displayAmount", undefined);
-		setValue("recipientAddress", null);
+		setValue("recipientAddress", undefined);
 	}, [setValue]);
 
 	useEffect(() => {
@@ -172,7 +174,7 @@ export const AddRecipient = ({
 		if (getValues("displayAmount")) {
 			trigger("amount");
 		}
-	}, [fee, getValues, trigger]);
+	}, [fee, senderAddress, getValues, trigger]);
 
 	useEffect(() => {
 		//region added Timeout to prevent show error for recipientAddress when switch between transfer type
@@ -234,7 +236,7 @@ export const AddRecipient = ({
 	}, []);
 	//endregion
 
-	const singleRecipientOnChange = (amountValue: number, recipientAddressValue: string) => {
+	const singleRecipientOnChange = (amountValue: number, recipientAddressValue: string, alias?: string) => {
 		if (!isSingle) {
 			return;
 		}
@@ -246,6 +248,7 @@ export const AddRecipient = ({
 		onChange?.([
 			{
 				address: recipientAddressValue,
+				alias: alias ?? recipientAlias,
 				amount: +amountValue,
 			},
 		]);
@@ -254,6 +257,7 @@ export const AddRecipient = ({
 	const handleAddRecipient = (address: string, amount: number, displayAmount: string) => {
 		let newRecipient: RecipientListItem = {
 			address,
+			alias: recipientAlias,
 			amount: +amount,
 			displayAmount,
 		};
@@ -329,9 +333,10 @@ export const AddRecipient = ({
 							address={recipientAddress}
 							profile={profile}
 							placeholder={t("COMMON.ADDRESS")}
-							onChange={(address: any) => {
+							onChange={(address: string, alias: string) => {
 								setValue("recipientAddress", address, { shouldDirty: true, shouldValidate: true });
-								singleRecipientOnChange(getValues("amount"), address);
+								setRecipientAlias(alias);
+								singleRecipientOnChange(getValues("amount"), address, alias);
 							}}
 						/>
 					</FormField>

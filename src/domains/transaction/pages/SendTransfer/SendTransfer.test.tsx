@@ -262,6 +262,7 @@ describe("SendTransfer", () => {
 					recipients: [
 						{
 							address: wallet.address(),
+							alias: wallet.alias(),
 							amount: BigNumber.make(1),
 						},
 					],
@@ -270,7 +271,7 @@ describe("SendTransfer", () => {
 			}),
 		);
 
-		const { asFragment, container, getByTestId } = render(
+		const { asFragment, container, getByTestId, getAllByTestId } = render(
 			<FormProvider {...form.current}>
 				<ReviewStep wallet={wallet} />
 			</FormProvider>,
@@ -278,6 +279,7 @@ describe("SendTransfer", () => {
 
 		expect(getByTestId("SendTransfer__review-step")).toBeTruthy();
 		expect(container).toHaveTextContent(wallet.network().name());
+		expect(getAllByTestId("Address__alias")).toHaveLength(2);
 		expect(container).toHaveTextContent("D8rr7B1d6TL6pf14LgMz4sKp1VBMs6YUYD");
 		expect(container).toHaveTextContent("test memo");
 
@@ -636,6 +638,61 @@ describe("SendTransfer", () => {
 		expect(() => getByTestId("modal__inner")).toThrow(/Unable to find an element by/);
 
 		await waitFor(() => expect(container).toMatchSnapshot());
+	});
+
+	it("should update available amount after sender address changed", async () => {
+		const transferURL = `/profiles/${fixtureProfileId}/send-transfer`;
+
+		const history = createMemoryHistory();
+		history.push(transferURL);
+
+		const { getByTestId, getByText, queryByTestId } = renderWithRouter(
+			<Route path="/profiles/:profileId/send-transfer">
+				<LedgerProvider transport={getDefaultLedgerTransport()}>
+					<SendTransfer />
+				</LedgerProvider>
+			</Route>,
+			{
+				history,
+				routes: [transferURL],
+			},
+		);
+
+		await waitFor(() => expect(getByTestId("SendTransfer__network-step")).toBeTruthy());
+
+		fireEvent.click(getByTestId("NetworkIcon-ARK-ark.devnet"));
+		await waitFor(() => expect(getByTestId("SelectNetworkInput__input")).toHaveValue("ARK Devnet"));
+
+		await waitFor(() => expect(getByTestId("StepNavigation__continue-button")).not.toBeDisabled());
+
+		fireEvent.click(getByTestId("StepNavigation__continue-button"));
+		await waitFor(() => expect(getByTestId("SendTransfer__form-step")).toBeTruthy());
+
+		expect(getByTestId("SelectNetworkInput__network")).toHaveAttribute("aria-label", "ARK Devnet");
+
+		// Select sender
+		fireEvent.click(within(getByTestId("sender-address")).getByTestId("SelectAddress__wrapper"));
+		await waitFor(() => expect(getByTestId("modal__inner")).toBeTruthy());
+
+		const secondAddress = getByTestId("SearchWalletListItem__select-1");
+		fireEvent.click(secondAddress);
+
+		expect(getByText("57.60679402")).toBeInTheDocument();
+
+		fireEvent.input(getByTestId("AddRecipient__amount"), { target: { value: "55" } });
+
+		await waitFor(() => expect(queryByTestId("Input__error")).not.toBeInTheDocument());
+
+		// Select sender
+		fireEvent.click(within(getByTestId("sender-address")).getByTestId("SelectAddress__wrapper"));
+		await waitFor(() => expect(getByTestId("modal__inner")).toBeTruthy());
+
+		const firstAddress = getByTestId("SearchWalletListItem__select-0");
+		fireEvent.click(firstAddress);
+
+		expect(getByText("33.67769203")).toBeInTheDocument();
+
+		await waitFor(() => expect(getByTestId("Input__error")).toBeInTheDocument());
 	});
 
 	it("should recalculate amount when fee changes and send all is selected", async () => {
